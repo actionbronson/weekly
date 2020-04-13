@@ -90,7 +90,6 @@ public class CalendarApiTest {
         Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 14));
         Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
         Week week = calendarApiService.getCurrentWeek("EST", "SUN");
-        System.out.println(week);
         Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
         Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
     }
@@ -101,7 +100,6 @@ public class CalendarApiTest {
         Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 12));
         Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
         Week week = calendarApiService.getCurrentWeek("EST", "SUN");
-        System.out.println(week);
         Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
         Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
     }
@@ -112,7 +110,6 @@ public class CalendarApiTest {
         Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 18));
         Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
         Week week = calendarApiService.getCurrentWeek("EST", "SUN");
-        System.out.println(week);
         Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
         Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
     }

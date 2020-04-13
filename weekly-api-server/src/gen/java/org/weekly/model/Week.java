@@ -17,33 +17,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Week  {
   
   @ApiModelProperty(value = "")
-  private Integer weekNo = null;
-
-  @ApiModelProperty(value = "")
   @Valid
   private Day start = null;
 
   @ApiModelProperty(value = "")
   @Valid
   private Day end = null;
- /**
-   * Get weekNo
-   * @return weekNo
-  **/
-  @JsonProperty("weekNo")
-  public Integer getWeekNo() {
-    return weekNo;
-  }
-
-  public void setWeekNo(Integer weekNo) {
-    this.weekNo = weekNo;
-  }
-
-  public Week weekNo(Integer weekNo) {
-    this.weekNo = weekNo;
-    return this;
-  }
-
  /**
    * Get start
    * @return start
@@ -86,7 +65,6 @@ public class Week  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Week {\n");
     
-    sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
     sb.append("}");

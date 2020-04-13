@@ -55,6 +55,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.0.2.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>openapi-generator-maven-plugin</artifactId>
 			<!-- RELEASE_VERSION -->

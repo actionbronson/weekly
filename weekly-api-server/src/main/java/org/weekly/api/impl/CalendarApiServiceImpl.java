@@ -84,10 +84,6 @@ public class CalendarApiServiceImpl implements CalendarApi {
         return LocalDate.now(zoneId);
     }
 
-    public LocalDate getFromDay(int year, int dayOfYear) {
-        return LocalDate.ofYearDay(year, dayOfYear);
-    }
-
     private static Day fromDayOfWeek(LocalDate day) {
         return new Day().dayOfYear(day.getDayOfYear()).year(day.getYear());
     }
