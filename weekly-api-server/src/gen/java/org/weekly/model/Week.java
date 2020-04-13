@@ -1,6 +1,6 @@
 package org.weekly.model;
 
-import java.math.BigDecimal;
+import org.weekly.model.Day;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -17,51 +17,48 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Week  {
   
   @ApiModelProperty(value = "")
-  @Valid
-  private BigDecimal start = null;
-
-  @ApiModelProperty(value = "")
-  private String startLabel = null;
+  private Integer weekNo = null;
 
   @ApiModelProperty(value = "")
   @Valid
-  private BigDecimal end = null;
+  private Day start = null;
 
   @ApiModelProperty(value = "")
-  private String endLabel = null;
+  @Valid
+  private Day end = null;
+ /**
+   * Get weekNo
+   * @return weekNo
+  **/
+  @JsonProperty("weekNo")
+  public Integer getWeekNo() {
+    return weekNo;
+  }
+
+  public void setWeekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+  }
+
+  public Week weekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+    return this;
+  }
+
  /**
    * Get start
    * @return start
   **/
   @JsonProperty("start")
-  public BigDecimal getStart() {
+  public Day getStart() {
     return start;
   }
 
-  public void setStart(BigDecimal start) {
+  public void setStart(Day start) {
     this.start = start;
   }
 
-  public Week start(BigDecimal start) {
+  public Week start(Day start) {
     this.start = start;
-    return this;
-  }
-
- /**
-   * Get startLabel
-   * @return startLabel
-  **/
-  @JsonProperty("startLabel")
-  public String getStartLabel() {
-    return startLabel;
-  }
-
-  public void setStartLabel(String startLabel) {
-    this.startLabel = startLabel;
-  }
-
-  public Week startLabel(String startLabel) {
-    this.startLabel = startLabel;
     return this;
   }
 
@@ -70,34 +67,16 @@ public class Week  {
    * @return end
   **/
   @JsonProperty("end")
-  public BigDecimal getEnd() {
+  public Day getEnd() {
     return end;
   }
 
-  public void setEnd(BigDecimal end) {
+  public void setEnd(Day end) {
     this.end = end;
   }
 
-  public Week end(BigDecimal end) {
+  public Week end(Day end) {
     this.end = end;
-    return this;
-  }
-
- /**
-   * Get endLabel
-   * @return endLabel
-  **/
-  @JsonProperty("endLabel")
-  public String getEndLabel() {
-    return endLabel;
-  }
-
-  public void setEndLabel(String endLabel) {
-    this.endLabel = endLabel;
-  }
-
-  public Week endLabel(String endLabel) {
-    this.endLabel = endLabel;
     return this;
   }
 
@@ -107,10 +86,9 @@ public class Week  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Week {\n");
     
+    sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
-    sb.append("    startLabel: ").append(toIndentedString(startLabel)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
-    sb.append("    endLabel: ").append(toIndentedString(endLabel)).append("\n");
     sb.append("}");
     return sb.toString();
   }

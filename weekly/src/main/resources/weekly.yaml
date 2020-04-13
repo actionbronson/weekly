@@ -7,38 +7,88 @@ info:
 #servers:
 #  - url: http://petstore.swagger.io/v1
 paths:
-  /week/current:
+  /week:
     get:
       summary: Get current week based on a timezone
       operationId: getCurrentWeek
       tags:
         - calendar
-#      parameters:
-#        - name: limit
-#          in: query
-#          description: How many items to return at one time (max 100)
-#          required: false
-#          schema:
-#            type: integer
-#            format: int32
+      parameters:
+        - name: tz
+          in: query
+          description: the timezone
+          required: true
+          schema:
+            type: string
+        - name: weekStart
+          in: query
+          description: Day of the week to start week on.
+          required: true
+          schema:
+            type: string
+            enum: [SUN,MON,TUE,WED,THU,FRI,SAT]
       responses:
         '200':
           description: The current week
-#          headers:
-#            x-next:
-#              description: A link to the next page of responses
-#              schema:
-#                type: string
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Week"
-#        default:
-#          description: unexpected error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/Error"
+
+  /week/next:
+    get:
+      summary: Get next week.
+      operationId: getNextWeek
+      tags:
+        - calendar
+      parameters:
+        - name: year
+          in: query
+          description: The year of the week number.
+          required: true
+          schema:
+            type: integer
+        - name: weekEnd
+          in: query
+          description: Day of the year of the last day of the current week.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The next week
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Week"
+
+  /week/previous:
+    get:
+      summary: Get previous week.
+      operationId: getPreviousWeek
+      tags:
+        - calendar
+      parameters:
+        - name: year
+          in: query
+          description: The year of the week number.
+          required: true
+          schema:
+            type: integer
+        - name: weekStart
+          in: query
+          description: Day of the year of the first day of the current week.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The previous week
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Week"
+
 #    post:
 #      summary: Create a pet
 #      operationId: createPets
@@ -111,14 +161,18 @@ components:
         dragToNextWeek:
           type: boolean
 
+    Day:
+      type: object
+      properties:
+        dayOfYear:
+          type: integer
+        year:
+          type: integer
+
     Week:
       type: object
       properties:
         start:
-          type: number
-        startLabel:
-          type: string
+          $ref: "#/components/schemas/Day"
         end:
-          type: number
-        endLabel:
-          type: string
+          $ref: "#/components/schemas/Day"

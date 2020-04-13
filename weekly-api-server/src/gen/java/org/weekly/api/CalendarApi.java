@@ -34,11 +34,35 @@ public interface CalendarApi  {
      *
      */
     @GET
-    @Path("/week/current")
+    @Path("/week")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar" })
+    @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The current week", response = Week.class) })
-    public Week getCurrentWeek();
+    public Week getCurrentWeek(@QueryParam("tz") @NotNull String tz, @QueryParam("weekStart") @NotNull String weekStart);
+
+    /**
+     * Get next week.
+     *
+     */
+    @GET
+    @Path("/week/next")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get next week.", tags={ "calendar",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The next week", response = Week.class) })
+    public Week getNextWeek(@QueryParam("year") @NotNull Integer year, @QueryParam("weekEnd") @NotNull Integer weekEnd);
+
+    /**
+     * Get previous week.
+     *
+     */
+    @GET
+    @Path("/week/previous")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get previous week.", tags={ "calendar" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The previous week", response = Week.class) })
+    public Week getPreviousWeek(@QueryParam("year") @NotNull Integer year, @QueryParam("weekStart") @NotNull Integer weekStart);
 }
 

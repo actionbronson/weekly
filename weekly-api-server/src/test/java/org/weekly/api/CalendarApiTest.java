@@ -26,7 +26,21 @@
 package org.weekly.api;
 
 import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
+import org.junit.Assert;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.weekly.api.impl.CalendarApiServiceImpl;
 import org.weekly.model.Week;
 import org.junit.Test;
 import org.junit.Before;
@@ -37,6 +51,8 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.WebClient;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,39 +72,48 @@ import org.springframework.test.context.web.WebAppConfiguration;
  *
  * API tests for CalendarApi 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@SpringBootTest("server.port=0")
+@RunWith(MockitoJUnitRunner.class)
+@ComponentScan(basePackages = "org.weekly.api")
+//@ContextConfiguration(loader= AnnotationConfigContextLoader.class)
 public class CalendarApiTest {
+    @Mock
+    private CalendarApiServiceImpl calendarApiService;
 
-    @Value("${local.server.port}")
-    private int serverPort;
-
-    private CalendarApi api;
-    
     @Before
-    public void setup() {
-        JacksonJsonProvider provider = new JacksonJsonProvider();
-        List providers = new ArrayList();
-        providers.add(provider);
-        
-        api = JAXRSClientFactory.create("http://localhost:" + serverPort + "/services", CalendarApi.class, providers);
-        org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
+    public void setupCalendarApi() {
+        ReflectionTestUtils.setField(calendarApiService, "logger", LoggerFactory.getLogger(CalendarApiServiceImpl.class));
     }
 
-    
-    /**
-     * Get current week based on a timezone
-     */
     @Test
-    public void getCurrentWeekTest() {
-        //Week response = api.getCurrentWeek();
-        //assertNotNull(response);
-        // TODO: test validations
-        
-        
+    public void gettingCurrentWeek()
+    {
+        Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 14));
+        Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
+        Week week = calendarApiService.getCurrentWeek("EST", "SUN");
+        System.out.println(week);
+        Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
+        Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
     }
-    
+
+    @Test
+    public void gettingCurrentWeek_edge_start()
+    {
+        Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 12));
+        Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
+        Week week = calendarApiService.getCurrentWeek("EST", "SUN");
+        System.out.println(week);
+        Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
+        Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
+    }
+
+    @Test
+    public void gettingCurrentWeek_edge_end()
+    {
+        Mockito.when(calendarApiService.getNow(Mockito.any(ZoneId.class))).thenReturn(LocalDate.ofYearDay(2020, 18));
+        Mockito.when(calendarApiService.getCurrentWeek("EST", "SUN")).thenCallRealMethod();
+        Week week = calendarApiService.getCurrentWeek("EST", "SUN");
+        System.out.println(week);
+        Assert.assertEquals(week.getStart().getDayOfYear(), Integer.valueOf(12));
+        Assert.assertEquals(week.getEnd().getDayOfYear(), Integer.valueOf(18));
+    }
 }
