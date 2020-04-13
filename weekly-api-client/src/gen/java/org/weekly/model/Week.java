@@ -23,30 +23,22 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.math.BigDecimal;
+import org.weekly.model.Day;
 
 /**
  * Week
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-04-12T09:36:36.273404-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-04-13T16:18:41.063880-04:00[America/Toronto]")
 public class Week {
   public static final String SERIALIZED_NAME_START = "start";
   @SerializedName(SERIALIZED_NAME_START)
-  private BigDecimal start = null;
-
-  public static final String SERIALIZED_NAME_START_LABEL = "startLabel";
-  @SerializedName(SERIALIZED_NAME_START_LABEL)
-  private String startLabel = null;
+  private Day start = null;
 
   public static final String SERIALIZED_NAME_END = "end";
   @SerializedName(SERIALIZED_NAME_END)
-  private BigDecimal end = null;
+  private Day end = null;
 
-  public static final String SERIALIZED_NAME_END_LABEL = "endLabel";
-  @SerializedName(SERIALIZED_NAME_END_LABEL)
-  private String endLabel = null;
-
-  public Week start(BigDecimal start) {
+  public Week start(Day start) {
     this.start = start;
     return this;
   }
@@ -56,33 +48,15 @@ public class Week {
    * @return start
   **/
   @ApiModelProperty(value = "")
-  public BigDecimal getStart() {
+  public Day getStart() {
     return start;
   }
 
-  public void setStart(BigDecimal start) {
+  public void setStart(Day start) {
     this.start = start;
   }
 
-  public Week startLabel(String startLabel) {
-    this.startLabel = startLabel;
-    return this;
-  }
-
-   /**
-   * Get startLabel
-   * @return startLabel
-  **/
-  @ApiModelProperty(value = "")
-  public String getStartLabel() {
-    return startLabel;
-  }
-
-  public void setStartLabel(String startLabel) {
-    this.startLabel = startLabel;
-  }
-
-  public Week end(BigDecimal end) {
+  public Week end(Day end) {
     this.end = end;
     return this;
   }
@@ -92,30 +66,12 @@ public class Week {
    * @return end
   **/
   @ApiModelProperty(value = "")
-  public BigDecimal getEnd() {
+  public Day getEnd() {
     return end;
   }
 
-  public void setEnd(BigDecimal end) {
+  public void setEnd(Day end) {
     this.end = end;
-  }
-
-  public Week endLabel(String endLabel) {
-    this.endLabel = endLabel;
-    return this;
-  }
-
-   /**
-   * Get endLabel
-   * @return endLabel
-  **/
-  @ApiModelProperty(value = "")
-  public String getEndLabel() {
-    return endLabel;
-  }
-
-  public void setEndLabel(String endLabel) {
-    this.endLabel = endLabel;
   }
 
 
@@ -129,14 +85,12 @@ public class Week {
     }
     Week week = (Week) o;
     return Objects.equals(this.start, week.start) &&
-        Objects.equals(this.startLabel, week.startLabel) &&
-        Objects.equals(this.end, week.end) &&
-        Objects.equals(this.endLabel, week.endLabel);
+        Objects.equals(this.end, week.end);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(start, startLabel, end, endLabel);
+    return Objects.hash(start, end);
   }
 
 
@@ -146,9 +100,7 @@ public class Week {
     sb.append("class Week {\n");
     
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
-    sb.append("    startLabel: ").append(toIndentedString(startLabel)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
-    sb.append("    endLabel: ").append(toIndentedString(endLabel)).append("\n");
     sb.append("}");
     return sb.toString();
   }

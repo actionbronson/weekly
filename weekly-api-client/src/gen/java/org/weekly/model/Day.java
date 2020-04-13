@@ -25,74 +25,52 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * User
+ * Day
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-04-13T16:18:41.063880-04:00[America/Toronto]")
-public class User {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
-  private Long id = null;
+public class Day {
+  public static final String SERIALIZED_NAME_DAY_OF_YEAR = "dayOfYear";
+  @SerializedName(SERIALIZED_NAME_DAY_OF_YEAR)
+  private Integer dayOfYear = null;
 
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
-  private String name = null;
+  public static final String SERIALIZED_NAME_YEAR = "year";
+  @SerializedName(SERIALIZED_NAME_YEAR)
+  private Integer year = null;
 
-  public static final String SERIALIZED_NAME_ALIAS = "alias";
-  @SerializedName(SERIALIZED_NAME_ALIAS)
-  private String alias = null;
-
-  public User id(Long id) {
-    this.id = id;
+  public Day dayOfYear(Integer dayOfYear) {
+    this.dayOfYear = dayOfYear;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public User name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public User alias(String alias) {
-    this.alias = alias;
-    return this;
-  }
-
-   /**
-   * Get alias
-   * @return alias
+   * Get dayOfYear
+   * @return dayOfYear
   **/
   @ApiModelProperty(value = "")
-  public String getAlias() {
-    return alias;
+  public Integer getDayOfYear() {
+    return dayOfYear;
   }
 
-  public void setAlias(String alias) {
-    this.alias = alias;
+  public void setDayOfYear(Integer dayOfYear) {
+    this.dayOfYear = dayOfYear;
+  }
+
+  public Day year(Integer year) {
+    this.year = year;
+    return this;
+  }
+
+   /**
+   * Get year
+   * @return year
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
   }
 
 
@@ -104,26 +82,24 @@ public class User {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    User user = (User) o;
-    return Objects.equals(this.id, user.id) &&
-        Objects.equals(this.name, user.name) &&
-        Objects.equals(this.alias, user.alias);
+    Day day = (Day) o;
+    return Objects.equals(this.dayOfYear, day.dayOfYear) &&
+        Objects.equals(this.year, day.year);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, alias);
+    return Objects.hash(dayOfYear, year);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
+    sb.append("class Day {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    dayOfYear: ").append(toIndentedString(dayOfYear)).append("\n");
+    sb.append("    year: ").append(toIndentedString(year)).append("\n");
     sb.append("}");
     return sb.toString();
   }

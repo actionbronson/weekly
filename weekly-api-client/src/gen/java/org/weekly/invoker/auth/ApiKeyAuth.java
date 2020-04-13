@@ -18,7 +18,7 @@ import org.weekly.invoker.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-04-12T09:36:36.273404-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-04-13T16:18:41.063880-04:00[America/Toronto]")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;

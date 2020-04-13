@@ -56,19 +56,25 @@ public class CalendarApi {
 
     /**
      * Build call for getCurrentWeek
+     * @param tz the timezone (required)
+     * @param weekStart Day of the week to start week on. (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getCurrentWeekCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getCurrentWeekCall(String tz, String weekStart, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
-        String localVarPath = "/week/current";
+        String localVarPath = "/week";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (tz != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("tz", tz));
+        if (weekStart != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("weekStart", weekStart));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
@@ -103,10 +109,20 @@ public class CalendarApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getCurrentWeekValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getCurrentWeekValidateBeforeCall(String tz, String weekStart, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'tz' is set
+        if (tz == null) {
+            throw new ApiException("Missing the required parameter 'tz' when calling getCurrentWeek(Async)");
+        }
+        
+        // verify the required parameter 'weekStart' is set
+        if (weekStart == null) {
+            throw new ApiException("Missing the required parameter 'weekStart' when calling getCurrentWeek(Async)");
+        }
         
 
-        com.squareup.okhttp.Call call = getCurrentWeekCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getCurrentWeekCall(tz, weekStart, progressListener, progressRequestListener);
         return call;
 
     }
@@ -114,22 +130,26 @@ public class CalendarApi {
     /**
      * Get current week based on a timezone
      * 
+     * @param tz the timezone (required)
+     * @param weekStart Day of the week to start week on. (required)
      * @return Week
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Week getCurrentWeek() throws ApiException {
-        ApiResponse<Week> resp = getCurrentWeekWithHttpInfo();
+    public Week getCurrentWeek(String tz, String weekStart) throws ApiException {
+        ApiResponse<Week> resp = getCurrentWeekWithHttpInfo(tz, weekStart);
         return resp.getData();
     }
 
     /**
      * Get current week based on a timezone
      * 
+     * @param tz the timezone (required)
+     * @param weekStart Day of the week to start week on. (required)
      * @return ApiResponse&lt;Week&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Week> getCurrentWeekWithHttpInfo() throws ApiException {
-        com.squareup.okhttp.Call call = getCurrentWeekValidateBeforeCall(null, null);
+    public ApiResponse<Week> getCurrentWeekWithHttpInfo(String tz, String weekStart) throws ApiException {
+        com.squareup.okhttp.Call call = getCurrentWeekValidateBeforeCall(tz, weekStart, null, null);
         Type localVarReturnType = new TypeToken<Week>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -137,11 +157,13 @@ public class CalendarApi {
     /**
      * Get current week based on a timezone (asynchronously)
      * 
+     * @param tz the timezone (required)
+     * @param weekStart Day of the week to start week on. (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getCurrentWeekAsync(final ApiCallback<Week> callback) throws ApiException {
+    public com.squareup.okhttp.Call getCurrentWeekAsync(String tz, String weekStart, final ApiCallback<Week> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -162,7 +184,277 @@ public class CalendarApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getCurrentWeekValidateBeforeCall(progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getCurrentWeekValidateBeforeCall(tz, weekStart, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Week>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for getNextWeek
+     * @param year The year of the week number. (required)
+     * @param weekEnd Day of the year of the last day of the current week. (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getNextWeekCall(Integer year, Integer weekEnd, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/week/next";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (year != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("year", year));
+        if (weekEnd != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("weekEnd", weekEnd));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getNextWeekValidateBeforeCall(Integer year, Integer weekEnd, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'year' is set
+        if (year == null) {
+            throw new ApiException("Missing the required parameter 'year' when calling getNextWeek(Async)");
+        }
+        
+        // verify the required parameter 'weekEnd' is set
+        if (weekEnd == null) {
+            throw new ApiException("Missing the required parameter 'weekEnd' when calling getNextWeek(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = getNextWeekCall(year, weekEnd, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Get next week.
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekEnd Day of the year of the last day of the current week. (required)
+     * @return Week
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Week getNextWeek(Integer year, Integer weekEnd) throws ApiException {
+        ApiResponse<Week> resp = getNextWeekWithHttpInfo(year, weekEnd);
+        return resp.getData();
+    }
+
+    /**
+     * Get next week.
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekEnd Day of the year of the last day of the current week. (required)
+     * @return ApiResponse&lt;Week&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Week> getNextWeekWithHttpInfo(Integer year, Integer weekEnd) throws ApiException {
+        com.squareup.okhttp.Call call = getNextWeekValidateBeforeCall(year, weekEnd, null, null);
+        Type localVarReturnType = new TypeToken<Week>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Get next week. (asynchronously)
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekEnd Day of the year of the last day of the current week. (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getNextWeekAsync(Integer year, Integer weekEnd, final ApiCallback<Week> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getNextWeekValidateBeforeCall(year, weekEnd, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Week>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for getPreviousWeek
+     * @param year The year of the week number. (required)
+     * @param weekStart Day of the year of the first day of the current week. (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getPreviousWeekCall(Integer year, Integer weekStart, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/week/previous";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (year != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("year", year));
+        if (weekStart != null)
+        localVarQueryParams.addAll(apiClient.parameterToPair("weekStart", weekStart));
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getPreviousWeekValidateBeforeCall(Integer year, Integer weekStart, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'year' is set
+        if (year == null) {
+            throw new ApiException("Missing the required parameter 'year' when calling getPreviousWeek(Async)");
+        }
+        
+        // verify the required parameter 'weekStart' is set
+        if (weekStart == null) {
+            throw new ApiException("Missing the required parameter 'weekStart' when calling getPreviousWeek(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = getPreviousWeekCall(year, weekStart, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * Get previous week.
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekStart Day of the year of the first day of the current week. (required)
+     * @return Week
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Week getPreviousWeek(Integer year, Integer weekStart) throws ApiException {
+        ApiResponse<Week> resp = getPreviousWeekWithHttpInfo(year, weekStart);
+        return resp.getData();
+    }
+
+    /**
+     * Get previous week.
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekStart Day of the year of the first day of the current week. (required)
+     * @return ApiResponse&lt;Week&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Week> getPreviousWeekWithHttpInfo(Integer year, Integer weekStart) throws ApiException {
+        com.squareup.okhttp.Call call = getPreviousWeekValidateBeforeCall(year, weekStart, null, null);
+        Type localVarReturnType = new TypeToken<Week>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Get previous week. (asynchronously)
+     * 
+     * @param year The year of the week number. (required)
+     * @param weekStart Day of the year of the first day of the current week. (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getPreviousWeekAsync(Integer year, Integer weekStart, final ApiCallback<Week> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getPreviousWeekValidateBeforeCall(year, weekStart, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Week>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

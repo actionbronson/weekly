@@ -1,11 +1,11 @@
 
-# Week
+# Day
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**start** | [**Day**](Day.md) |  |  [optional]
-**end** | [**Day**](Day.md) |  |  [optional]
+**dayOfYear** | **Integer** |  |  [optional]
+**year** | **Integer** |  |  [optional]
 
 
 
