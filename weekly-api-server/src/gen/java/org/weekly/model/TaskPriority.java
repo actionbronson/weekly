@@ -13,42 +13,19 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User  {
+public class TaskPriority  {
   
-  @ApiModelProperty(required = true, value = "")
-  private Integer id = null;
-
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   private String name = null;
 
   @ApiModelProperty(value = "")
-  private String alias = null;
- /**
-   * Get id
-   * @return id
-  **/
-  @JsonProperty("id")
-  @NotNull
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public User id(Integer id) {
-    this.id = id;
-    return this;
-  }
-
+  private Integer level = null;
  /**
    * Get name
    * @return name
   **/
   @JsonProperty("name")
-  @NotNull
-  public String getName() {
+ @Size(min=3,max=32)  public String getName() {
     return name;
   }
 
@@ -56,26 +33,26 @@ public class User  {
     this.name = name;
   }
 
-  public User name(String name) {
+  public TaskPriority name(String name) {
     this.name = name;
     return this;
   }
 
  /**
-   * Get alias
-   * @return alias
+   * Get level
+   * @return level
   **/
-  @JsonProperty("alias")
-  public String getAlias() {
-    return alias;
+  @JsonProperty("level")
+  public Integer getLevel() {
+    return level;
   }
 
-  public void setAlias(String alias) {
-    this.alias = alias;
+  public void setLevel(Integer level) {
+    this.level = level;
   }
 
-  public User alias(String alias) {
-    this.alias = alias;
+  public TaskPriority level(Integer level) {
+    this.level = level;
     return this;
   }
 
@@ -83,11 +60,10 @@ public class User  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
+    sb.append("class TaskPriority {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("}");
     return sb.toString();
   }

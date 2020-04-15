@@ -42,8 +42,6 @@ public class CalendarApiTest {
      */
     @Test
     public void getCurrentWeekTest() throws ApiException {
-        Week response = api.getCurrentWeek();
-
         // TODO: test validations
     }
     

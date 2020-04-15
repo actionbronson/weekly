@@ -1,6 +1,9 @@
 package org.weekly.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.weekly.model.Day;
+import org.weekly.model.Task;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -23,6 +26,10 @@ public class Week  {
   @ApiModelProperty(value = "")
   @Valid
   private Day end = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private List<Task> tasks = null;
  /**
    * Get start
    * @return start
@@ -59,6 +66,29 @@ public class Week  {
     return this;
   }
 
+ /**
+   * Get tasks
+   * @return tasks
+  **/
+  @JsonProperty("tasks")
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
+
+  public Week tasks(List<Task> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public Week addTasksItem(Task tasksItem) {
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -67,6 +97,7 @@ public class Week  {
     
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("}");
     return sb.toString();
   }

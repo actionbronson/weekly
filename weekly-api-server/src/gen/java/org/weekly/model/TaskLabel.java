@@ -13,42 +13,19 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User  {
+public class TaskLabel  {
   
-  @ApiModelProperty(required = true, value = "")
-  private Integer id = null;
-
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   private String name = null;
 
   @ApiModelProperty(value = "")
-  private String alias = null;
- /**
-   * Get id
-   * @return id
-  **/
-  @JsonProperty("id")
-  @NotNull
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public User id(Integer id) {
-    this.id = id;
-    return this;
-  }
-
+  private String color = null;
  /**
    * Get name
    * @return name
   **/
   @JsonProperty("name")
-  @NotNull
-  public String getName() {
+ @Size(min=3,max=32)  public String getName() {
     return name;
   }
 
@@ -56,26 +33,26 @@ public class User  {
     this.name = name;
   }
 
-  public User name(String name) {
+  public TaskLabel name(String name) {
     this.name = name;
     return this;
   }
 
  /**
-   * Get alias
-   * @return alias
+   * Get color
+   * @return color
   **/
-  @JsonProperty("alias")
-  public String getAlias() {
-    return alias;
+  @JsonProperty("color")
+  public String getColor() {
+    return color;
   }
 
-  public void setAlias(String alias) {
-    this.alias = alias;
+  public void setColor(String color) {
+    this.color = color;
   }
 
-  public User alias(String alias) {
-    this.alias = alias;
+  public TaskLabel color(String color) {
+    this.color = color;
     return this;
   }
 
@@ -83,11 +60,10 @@ public class User  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
+    sb.append("class TaskLabel {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
   }
