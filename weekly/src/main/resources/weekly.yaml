@@ -23,13 +23,13 @@ paths:
           required: true
           schema:
             type: string
-        - name: weekStart
-          in: query
-          description: Day of the week to start week on.
-          required: true
-          schema:
-            type: string
-            enum: [SUN,MON,TUE,WED,THU,FRI,SAT]
+#        - name: weekStart
+#          in: query
+#          description: Day of the week to start week on.
+#          required: true
+#          schema:
+#            type: string
+#            enum: [SUN,MON,TUE,WED,THU,FRI,SAT]
       responses:
         '200':
           description: The current week
@@ -45,15 +45,23 @@ paths:
       tags:
         - calendar
       parameters:
-        - name: year
+#        - name: year
+#          in: query
+#          description: The year of the week number.
+#          required: true
+#          schema:
+#            type: integer
+        - name: weekNo
           in: query
-          description: The year of the week number.
+          description: ISO 8601 relative week (number).
           required: true
           schema:
             type: integer
-        - name: weekEnd
+            minValue: 1
+            maxValue: 1
+        - name: weekYear
           in: query
-          description: Day of the year of the last day of the current week.
+          description: ISO 8601 relative week (year).
           required: true
           schema:
             type: integer
@@ -72,15 +80,21 @@ paths:
       tags:
         - calendar
       parameters:
-        - name: year
+#        - name: year
+#          in: query
+#          description: The year of the week number.
+#          required: true
+#          schema:
+#            type: integer
+        - name: weekNo
           in: query
-          description: The year of the week number.
+          description: ISO 8601 relative week (number).
           required: true
           schema:
             type: integer
-        - name: weekStart
+        - name: weekYear
           in: query
-          description: Day of the year of the first day of the current week.
+          description: ISO 8601 relative week (year).
           required: true
           schema:
             type: integer
@@ -147,10 +161,10 @@ components:
           type: string
         alias:
           type: string
-#        preferences:
-#          type: object
-#          properties:
-#            $ref: "#/components/schemas/Preferences"
+        preferences:
+          type: object
+          properties:
+            $ref: "#/components/schemas/Preferences"
 
     Preferences:
       type: object
@@ -226,9 +240,19 @@ components:
     Week:
       type: object
       properties:
+        year:
+          type: integer
+          nullable: false
+        weekNo:
+          type: integer
+          nullable: false
+#          minValue: 1
+#          maxValue: 53
         start:
+          nullable: false
           $ref: "#/components/schemas/Day"
         end:
+          nullable: false
           $ref: "#/components/schemas/Day"
         tasks:
           type: array

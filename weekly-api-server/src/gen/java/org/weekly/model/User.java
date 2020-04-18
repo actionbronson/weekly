@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class User  {
   
   @ApiModelProperty(required = true, value = "")
@@ -23,6 +24,9 @@ public class User  {
 
   @ApiModelProperty(value = "")
   private String alias = null;
+
+  @ApiModelProperty(value = "")
+  private Object preferences = null;
  /**
    * Get id
    * @return id
@@ -79,6 +83,24 @@ public class User  {
     return this;
   }
 
+ /**
+   * Get preferences
+   * @return preferences
+  **/
+  @JsonProperty("preferences")
+  public Object getPreferences() {
+    return preferences;
+  }
+
+  public void setPreferences(Object preferences) {
+    this.preferences = preferences;
+  }
+
+  public User preferences(Object preferences) {
+    this.preferences = preferences;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -88,6 +110,7 @@ public class User  {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    preferences: ").append(toIndentedString(preferences)).append("\n");
     sb.append("}");
     return sb.toString();
   }

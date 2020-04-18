@@ -17,8 +17,15 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class Week  {
   
+  @ApiModelProperty(value = "")
+  private Integer year = null;
+
+  @ApiModelProperty(value = "")
+  private Integer weekNo = null;
+
   @ApiModelProperty(value = "")
   @Valid
   private Day start = null;
@@ -30,6 +37,42 @@ public class Week  {
   @ApiModelProperty(value = "")
   @Valid
   private List<Task> tasks = null;
+ /**
+   * Get year
+   * @return year
+  **/
+  @JsonProperty("year")
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public Week year(Integer year) {
+    this.year = year;
+    return this;
+  }
+
+ /**
+   * Get weekNo
+   * @return weekNo
+  **/
+  @JsonProperty("weekNo")
+  public Integer getWeekNo() {
+    return weekNo;
+  }
+
+  public void setWeekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+  }
+
+  public Week weekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+    return this;
+  }
+
  /**
    * Get start
    * @return start
@@ -95,6 +138,8 @@ public class Week  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Week {\n");
     
+    sb.append("    year: ").append(toIndentedString(year)).append("\n");
+    sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("    start: ").append(toIndentedString(start)).append("\n");
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
     sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");

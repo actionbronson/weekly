@@ -1,24 +1,21 @@
 package org.weekly.api.impl;
 
-import io.swagger.annotations.Api;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
+import org.threeten.extra.YearWeek;
 import org.weekly.api.CalendarApi;
 import org.weekly.model.Day;
 import org.weekly.model.Week;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.WeekFields;
-import java.util.*;
+import java.util.TimeZone;
 
 import static java.lang.String.format;
 
@@ -29,36 +26,26 @@ import static java.lang.String.format;
  *
  */
 @Controller
-//@Api(value = "/", description = "")
 public class CalendarApiServiceImpl implements CalendarApi {
-
-    private static final Map<String,DayOfWeek> CALENDAR_DAY = Map.of(
-            "SUN", DayOfWeek.SUNDAY,
-            "MON", DayOfWeek.MONDAY,
-            "TUE", DayOfWeek.TUESDAY,
-            "WED", DayOfWeek.WEDNESDAY,
-            "THU", DayOfWeek.THURSDAY,
-            "FRI", DayOfWeek.FRIDAY,
-            "SAT", DayOfWeek.SATURDAY
-    );
-    private static final DayOfWeek DEFAULT_START = DayOfWeek.SUNDAY;
-    private static final int DAYS_IN_WEEK = 7;
+    // As per ISO8601 standard
+    private final static DayOfWeek WEEK_START = DayOfWeek.MONDAY;
+    private final static DayOfWeek WEEK_END = DayOfWeek.SUNDAY;
 
     private final Logger logger = LoggerFactory.getLogger(CalendarApiServiceImpl.class);
 
     @Override
-    public Week getCurrentWeek(@NotNull String tz, @NotNull String weekStart) {
+    public Week getCurrentWeek(@NotNull String tz) {
         try {
             final ZoneId zoneId = Try.of(() -> ZoneId.of(tz))
                     .orElse(Try.of(() -> TimeZone.getTimeZone(tz).toZoneId()))
                     .getOrElse(ZoneId.systemDefault());
-            final DayOfWeek fistDayOfWeek =
-                    WeekFields.of(CALENDAR_DAY.getOrDefault(weekStart.toUpperCase(), DEFAULT_START), DAYS_IN_WEEK)
-                        .getFirstDayOfWeek();
-            LocalDate startOfWeek = getNow(zoneId).with(TemporalAdjusters.previousOrSame(fistDayOfWeek));
-            LocalDate endOfWeek = getNow(zoneId).with(TemporalAdjusters.nextOrSame(fistDayOfWeek.minus(1)));
+            final LocalDate now = getNow(zoneId);
+            final LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+            final LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
             logger.info(format("startOfWeek: %s, endOfWeek: %s", startOfWeek, endOfWeek));
             return new Week()
+                    .year(now.getYear())
+                    .weekNo(getNow(zoneId).get(IsoFields.WEEK_OF_WEEK_BASED_YEAR))
                     .start(fromDayOfWeek(startOfWeek))
                     .end(fromDayOfWeek(endOfWeek));
         }
@@ -69,19 +56,27 @@ public class CalendarApiServiceImpl implements CalendarApi {
     }
 
     @Override
-    public Week getNextWeek(@NotNull Integer year, @NotNull Integer weekEnd) {
-        LocalDate date = LocalDate.ofYearDay(year, weekEnd);
-        LocalDate startOfNextWeek = date.with(TemporalAdjusters.next(date.getDayOfWeek().plus(1)));
-        LocalDate endOfNextWeek = date.with(TemporalAdjusters.next(date.getDayOfWeek()));
-        return new Week().start(fromDayOfWeek(startOfNextWeek)).end(fromDayOfWeek(endOfNextWeek));
+    public Week getNextWeek(@NotNull Integer weekNo, @NotNull Integer weekYear) {
+        LocalDate date = endOfWeek(weekNo, weekYear);
+        LocalDate startOfNextWeek = date.with(TemporalAdjusters.next(WEEK_START));
+        LocalDate endOfNextWeek = startOfNextWeek.with(TemporalAdjusters.next(WEEK_END));
+        return new Week()
+                .year(startOfNextWeek.get(IsoFields.WEEK_BASED_YEAR))
+                .weekNo(startOfNextWeek.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR))
+                .start(fromDayOfWeek(startOfNextWeek))
+                .end(fromDayOfWeek(endOfNextWeek));
     }
 
     @Override
-    public Week getPreviousWeek(@NotNull Integer year, @NotNull Integer weekStart) {
-        LocalDate date = LocalDate.ofYearDay(year, weekStart);
-        LocalDate startOfPreviousWeek = date.with(TemporalAdjusters.previous(date.getDayOfWeek()));
-        LocalDate endOfPreviousWeek = date.with(TemporalAdjusters.previous(date.getDayOfWeek().minus(1)));
-        return new Week().start(fromDayOfWeek(startOfPreviousWeek)).end(fromDayOfWeek(endOfPreviousWeek));
+    public Week getPreviousWeek(@NotNull Integer weekNo, @NotNull  Integer weekYear) {
+        LocalDate date = startOfWeek(weekNo, weekYear);
+        LocalDate startOfPreviousWeek = date.with(TemporalAdjusters.previous(WEEK_START));
+        LocalDate endOfPreviousWeek = startOfPreviousWeek.with(TemporalAdjusters.next(WEEK_END));
+        return new Week()
+                .year(startOfPreviousWeek.get(IsoFields.WEEK_BASED_YEAR))
+                .weekNo(startOfPreviousWeek.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR))
+                .start(fromDayOfWeek(startOfPreviousWeek))
+                .end(fromDayOfWeek(endOfPreviousWeek));
     }
 
     public LocalDate getNow(ZoneId zoneId) {
@@ -90,6 +85,16 @@ public class CalendarApiServiceImpl implements CalendarApi {
 
     private static Day fromDayOfWeek(LocalDate day) {
         return new Day().dayOfYear(day.getDayOfYear()).year(day.getYear());
+    }
+
+    private static LocalDate startOfWeek(int weekNo, int weekYear) {
+        YearWeek week = YearWeek.of(weekYear, weekNo);
+        return week.atDay(WEEK_START);
+    }
+
+    private static LocalDate endOfWeek(int weekNo, int weekYear) {
+        YearWeek week = YearWeek.of(weekYear, weekNo);
+        return week.atDay(WEEK_END);
     }
 }
 
