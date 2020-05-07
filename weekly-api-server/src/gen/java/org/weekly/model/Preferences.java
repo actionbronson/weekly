@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class Preferences  {
   
 @XmlType(name="WeekStartEnum")
@@ -38,13 +37,13 @@ public enum WeekStartEnum {
         return String.valueOf(value);
     }
 
-    public static WeekStartEnum fromValue(String value) {
+    public static WeekStartEnum fromValue(String v) {
         for (WeekStartEnum b : WeekStartEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return null;
     }
 }
 

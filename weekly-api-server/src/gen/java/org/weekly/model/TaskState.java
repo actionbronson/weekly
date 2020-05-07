@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 public class TaskState  {
   
 @XmlType(name="ValueEnum")
@@ -38,13 +37,13 @@ public enum ValueEnum {
         return String.valueOf(value);
     }
 
-    public static ValueEnum fromValue(String value) {
+    public static ValueEnum fromValue(String v) {
         for (ValueEnum b : ValueEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return null;
     }
 }
 

@@ -1,7 +1,6 @@
 package org.weekly.app;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -11,33 +10,37 @@ import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor;
 import org.apache.cxf.jaxrs.validation.ValidationExceptionMapper;
 import org.apache.cxf.validation.BeanValidationFeature;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.weekly.api.CalendarApi;
 import org.weekly.api.impl.CalendarApiServiceImpl;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-//import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
-//import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
-
 @SpringBootApplication
-public class WeeklyApplication {
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
+public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Bus bus;
-
-    @Autowired
-    private ApplicationContext context;
 
     @Bean
     public JacksonJsonProvider getJacksonJsonProvider() {
@@ -54,12 +57,9 @@ public class WeeklyApplication {
     @Bean
     public OpenApiFeature getOpenApiFeature() {
         OpenApiFeature feature = new OpenApiFeature();
-        //feature.setConfigLocation("weekly.yaml");
-        feature.setSecurityDefinitions(Map.of("basicAuth", new SecurityScheme().type(SecurityScheme.Type.HTTP)));
-        //feature.setBasePath("/swagger");
+        feature.setVersion("3.0.0");
         feature.setPrettyPrint(true);
         feature.setResourcePackages(Set.of("org.weekly.api"));
-        //feature.setSchemes(new String [] {"http"});
         feature.setDescription("Weekly Rest API");
         feature.setSupportSwaggerUi(true);
         feature.setSwaggerUiMavenGroupAndArtifact("org.webjars.swagger-ui");
@@ -104,20 +104,15 @@ public class WeeklyApplication {
         mapper.setAddMessageToResponse(true);
         return mapper;
     }
-//
-//    @Bean
-//    public Docket api() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                    .apis(RequestHandlerSelectors.basePackage("org.weekly"))
-//                    .paths(PathSelectors.any())
-//                .build()
-//                .apiInfo(
-//                        new ApiInfoBuilder()
-//                                .version("1.0")
-//                                .title("Calendar API")
-//                                .description("Calendar API v1.0").build());
-//    }
+
+    protected void configure(@NotNull HttpSecurity http) throws Exception {
+        http
+            .antMatcher("/**")
+                .authorizeRequests()
+                .anyRequest().authenticated()
+            .and()
+                .oauth2Login();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(WeeklyApplication.class, args);

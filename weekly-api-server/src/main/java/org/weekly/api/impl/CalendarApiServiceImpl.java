@@ -3,6 +3,8 @@ package org.weekly.api.impl;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.threeten.extra.YearWeek;
 import org.weekly.api.CalendarApi;
@@ -35,6 +37,7 @@ public class CalendarApiServiceImpl implements CalendarApi {
 
     @Override
     public Week getCurrentWeek(@NotNull String tz) {
+        SecurityContext context = SecurityContextHolder.getContext();
         try {
             final ZoneId zoneId = Try.of(() -> ZoneId.of(tz))
                     .orElse(Try.of(() -> TimeZone.getTimeZone(tz).toZoneId()))
@@ -97,4 +100,3 @@ public class CalendarApiServiceImpl implements CalendarApi {
         return week.atDay(WEEK_END);
     }
 }
-
