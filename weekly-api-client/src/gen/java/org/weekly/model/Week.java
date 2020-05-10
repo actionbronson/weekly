@@ -31,7 +31,7 @@ import org.weekly.model.Task;
 /**
  * Week
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-09T23:24:57.319165-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-10T17:54:32.581872-04:00[America/Toronto]")
 public class Week {
   public static final String SERIALIZED_NAME_YEAR = "year";
   @SerializedName(SERIALIZED_NAME_YEAR)

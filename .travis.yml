@@ -1,5 +1,28 @@
 language: java
+
 jdk: oraclejdk11
+
+services:
+- docker
+-
+env:
+  global:
+  - secure: 5fqmOhDr1LDapIlagtdXt7Vm6/UWzNerKHmgHzl5KuxCMPUF4UpoQh2ysH/BxWwCwGzo3gbankxTC3P0bAZZPueOFxTwaGiLr1Xs5L3ukf2Mq/raR3d9Ww1S+sovmuRAdGOFkRvk368/1Yt7/fCItwc61SVt+yEuDCI2aTmW+YrdcKll6snIAfimakePofMfkkpz0xr4OzqrVwQrvAgvgyqAV68L3VcARTeIpVqqFRut5MiJ33InyGJLC2eSLhUFdQYE5Vyq6kuHwy83hZ5a7+EtZnoOtAQHMKyVL67lK61xgX0QUZ/q2BcrFkQNgYV2lkNZDbpk7Qsuoky6svIofEyEDCZM9D/k1neazgWBGuyyJoHWXV+2QA6J3nKaHtqaKs0zqN0IuIPoozoYXLYYhkZb4jUHybbjiJN+rzARIt/r21/w5s3qF7ZuTmjuXxmn6ZsyoBHu10bvGr9w586+h0T0Oi19k16Rpe/U/PwgQAR5yI7m2oEkF3w5L8JS4ICIPTm3XsRJp1aUdMOprYnJKxmCzBBdSIu/kgkCBp6MBBJ6ziJPHj2mlVP2ffQTQbVugVoCrN3jSDGG31NIpA2lYzJGy4P0nEuuSIH7sQ3NbnHLnsIMJxDIsVL2kmufrWhYZxa/+hF3x/X9mK/q01Jfmjmz63U644fuk0kLJZqy71s=
+  - secure: a3qq5gMVO3okpKOfpaZH24kMWwLrQr5uRacLleTd9I2XATIRv3H3sKgMNC91voQ/SBnvWv9jB0bNYMp4MfHAEjS0IPvmWNXwyWuVcfSvwlUSxIkrOxDIBrNUx4aa4cPnmESZfQQYpqlakI+P/YOCtKiL6/UAraesjeZIvfe9dOuTfZ+CUSjJG1tuDIpTFg5E+pifkUliEzWX0fDl519LzSz9t2VhraizjHOsyZ6sTj8COaeosz3lX5I51BerlOdIvl6aMa/xZawxNjtEoVtaVTS2PLO1ToBdht3OI68kBK21l6Y7eWsjTqUS70syl7qyz9SbkWicF+ZzhDRPFrvpAPl59U3PSzG22XfvbLjVMhenAorBWyIbz+Md9gyLYOK+N+M9i+DPWHOjmUrajYXEi9PMA2El6ft6TPZWrCDGSBn/JSRO6ktCJq5k8hiReroyIFmP6tFbZ0VUFJS4jnHrz26qQo7CaASRnsbF0eECOFxxauAce4gm2KZHcX++bIbMAB7UKt8IO2ioAwkUCgu4yVxTQ9j24UfxeowPsTvZf8ugEoAFVnYLJ1FvH/iFb5kopzTkgz1gZooocxbHvAfEgHYELFKLJeHAka2MytGGtajRUrfpV3xINawqtLoEIjTMona8yIglKQA/qbKpLA+7PdLEXhfuZe+X0Z3FvvtnjmI=
+
 script:
-  - cd weekly
-  - mvn clean install
+- cd weekly
+- mvn clean install
+
+after_success:
+  - cd $HOME/build/actionbronson/weekly/weekly-api-server
+  - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_LOGIN}" --password-stdin
+  - |
+    if [[ "$TRAVIS_BRANCH" == "master" ]]
+    then
+      DOCKER_TAG=latest
+    else
+      DOCKER_TAG=$TRAVIS_BRANCH
+    fi
+  - docker build -t ${DOCKER_LOGIN}/weekly-api-server:${DOCKER_TAG} -f docker/Dockerfile .
+  - docker push ${DOCKER_LOGIN}/weekly-api-server:${DOCKER_TAG}
