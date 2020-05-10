@@ -1,6 +1,5 @@
 language: java
-
-jdk:
-  - oraclejdk11
-
-
+jdk: oraclejdk11
+script:
+  - cd weekly
+  - mvn clean install
