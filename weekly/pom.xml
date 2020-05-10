@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>../weekly-api-server</module>
-		<module>../weekly-oauth-server</module>
 		<module>../weekly-api-client</module>
 	</modules>
 </project>

@@ -25,52 +25,52 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Day
+ * TaskLabel
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-09T23:24:57.319165-04:00[America/Toronto]")
-public class Day {
-  public static final String SERIALIZED_NAME_DAY_OF_YEAR = "dayOfYear";
-  @SerializedName(SERIALIZED_NAME_DAY_OF_YEAR)
-  private Integer dayOfYear = null;
+public class TaskLabel {
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
+  private String name = null;
 
-  public static final String SERIALIZED_NAME_YEAR = "year";
-  @SerializedName(SERIALIZED_NAME_YEAR)
-  private Integer year = null;
+  public static final String SERIALIZED_NAME_COLOR = "color";
+  @SerializedName(SERIALIZED_NAME_COLOR)
+  private String color = null;
 
-  public Day dayOfYear(Integer dayOfYear) {
-    this.dayOfYear = dayOfYear;
+  public TaskLabel name(String name) {
+    this.name = name;
     return this;
   }
 
    /**
-   * Get dayOfYear
-   * @return dayOfYear
+   * Get name
+   * @return name
   **/
   @ApiModelProperty(value = "")
-  public Integer getDayOfYear() {
-    return dayOfYear;
+  public String getName() {
+    return name;
   }
 
-  public void setDayOfYear(Integer dayOfYear) {
-    this.dayOfYear = dayOfYear;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public Day year(Integer year) {
-    this.year = year;
+  public TaskLabel color(String color) {
+    this.color = color;
     return this;
   }
 
    /**
-   * Get year
-   * @return year
+   * Get color
+   * @return color
   **/
   @ApiModelProperty(value = "")
-  public Integer getYear() {
-    return year;
+  public String getColor() {
+    return color;
   }
 
-  public void setYear(Integer year) {
-    this.year = year;
+  public void setColor(String color) {
+    this.color = color;
   }
 
 
@@ -82,24 +82,24 @@ public class Day {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Day day = (Day) o;
-    return Objects.equals(this.dayOfYear, day.dayOfYear) &&
-        Objects.equals(this.year, day.year);
+    TaskLabel taskLabel = (TaskLabel) o;
+    return Objects.equals(this.name, taskLabel.name) &&
+        Objects.equals(this.color, taskLabel.color);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dayOfYear, year);
+    return Objects.hash(name, color);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Day {\n");
+    sb.append("class TaskLabel {\n");
     
-    sb.append("    dayOfYear: ").append(toIndentedString(dayOfYear)).append("\n");
-    sb.append("    year: ").append(toIndentedString(year)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
   }

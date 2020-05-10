@@ -3,8 +3,14 @@ package org.weekly.api.impl;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.threeten.extra.YearWeek;
 import org.weekly.api.CalendarApi;
@@ -35,9 +41,15 @@ public class CalendarApiServiceImpl implements CalendarApi {
 
     private final Logger logger = LoggerFactory.getLogger(CalendarApiServiceImpl.class);
 
+    @Autowired
+    private OAuth2AuthorizedClientService oAuth2ClientService;
+
     @Override
     public Week getCurrentWeek(@NotNull String tz) {
-        SecurityContext context = SecurityContextHolder.getContext();
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        OAuth2AuthenticationToken auth = (OAuth2AuthenticationToken) context.getAuthentication();
+//        OAuth2AuthorizedClient client = oAuth2ClientService.loadAuthorizedClient(auth.getAuthorizedClientRegistrationId(), auth.getName());
+//        String token = client.getAccessToken().getTokenValue();
         try {
             final ZoneId zoneId = Try.of(() -> ZoneId.of(tz))
                     .orElse(Try.of(() -> TimeZone.getTimeZone(tz).toZoneId()))

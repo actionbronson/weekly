@@ -25,52 +25,52 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Day
+ * TaskPriority
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-09T23:24:57.319165-04:00[America/Toronto]")
-public class Day {
-  public static final String SERIALIZED_NAME_DAY_OF_YEAR = "dayOfYear";
-  @SerializedName(SERIALIZED_NAME_DAY_OF_YEAR)
-  private Integer dayOfYear = null;
+public class TaskPriority {
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
+  private String name = null;
 
-  public static final String SERIALIZED_NAME_YEAR = "year";
-  @SerializedName(SERIALIZED_NAME_YEAR)
-  private Integer year = null;
+  public static final String SERIALIZED_NAME_LEVEL = "level";
+  @SerializedName(SERIALIZED_NAME_LEVEL)
+  private Integer level = null;
 
-  public Day dayOfYear(Integer dayOfYear) {
-    this.dayOfYear = dayOfYear;
+  public TaskPriority name(String name) {
+    this.name = name;
     return this;
   }
 
    /**
-   * Get dayOfYear
-   * @return dayOfYear
+   * Get name
+   * @return name
   **/
   @ApiModelProperty(value = "")
-  public Integer getDayOfYear() {
-    return dayOfYear;
+  public String getName() {
+    return name;
   }
 
-  public void setDayOfYear(Integer dayOfYear) {
-    this.dayOfYear = dayOfYear;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public Day year(Integer year) {
-    this.year = year;
+  public TaskPriority level(Integer level) {
+    this.level = level;
     return this;
   }
 
    /**
-   * Get year
-   * @return year
+   * Get level
+   * @return level
   **/
   @ApiModelProperty(value = "")
-  public Integer getYear() {
-    return year;
+  public Integer getLevel() {
+    return level;
   }
 
-  public void setYear(Integer year) {
-    this.year = year;
+  public void setLevel(Integer level) {
+    this.level = level;
   }
 
 
@@ -82,24 +82,24 @@ public class Day {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Day day = (Day) o;
-    return Objects.equals(this.dayOfYear, day.dayOfYear) &&
-        Objects.equals(this.year, day.year);
+    TaskPriority taskPriority = (TaskPriority) o;
+    return Objects.equals(this.name, taskPriority.name) &&
+        Objects.equals(this.level, taskPriority.level);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dayOfYear, year);
+    return Objects.hash(name, level);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Day {\n");
+    sb.append("class TaskPriority {\n");
     
-    sb.append("    dayOfYear: ").append(toIndentedString(dayOfYear)).append("\n");
-    sb.append("    year: ").append(toIndentedString(year)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    level: ").append(toIndentedString(level)).append("\n");
     sb.append("}");
     return sb.toString();
   }

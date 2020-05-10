@@ -1,11 +1,5 @@
 package org.weekly.api;
 
-import io.swagger.annotations.*;
-import io.swagger.v3.oas.annotations.security.OAuthScope;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.weekly.model.Week;
 
 import java.io.InputStream;
@@ -17,6 +11,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -27,7 +26,7 @@ import javax.validation.Valid;
  *
  */
 @Path("/")
-@Api(value = "/", description = "F")
+@Api(value = "/", description = "")
 public interface CalendarApi  {
 
     /**
@@ -37,9 +36,7 @@ public interface CalendarApi  {
     @GET
     @Path("/week")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar",  },authorizations = {
-            @Authorization(value = "oauth2", scopes = {@AuthorizationScope(scope = "email", description = "")}),
-            @Authorization(value = "oAuthFacebook", scopes = {@AuthorizationScope(scope = "public_profile", description = "")})})
+    @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The current week", response = Week.class) })
     public Week getCurrentWeek(@QueryParam("tz") @NotNull String tz);

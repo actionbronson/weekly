@@ -10,7 +10,6 @@ import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor;
 import org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor;
 import org.apache.cxf.jaxrs.validation.ValidationExceptionMapper;
 import org.apache.cxf.validation.BeanValidationFeature;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -21,12 +20,18 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.NimbusAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.weekly.api.CalendarApi;
 import org.weekly.api.impl.CalendarApiServiceImpl;
 
 import javax.sql.DataSource;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +46,15 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Bus bus;
+
+    @Autowired
+    private OAuth2AuthorizedClientService oAuth2ClientService;
+
+    @Autowired
+    private ClientRegistrationRepository registrationRepository;
+
+    @Autowired
+    private OAuth2AuthorizedClientRepository clientRepository;
 
     @Bean
     public JacksonJsonProvider getJacksonJsonProvider() {
@@ -110,8 +124,12 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
             .antMatcher("/**")
                 .authorizeRequests()
                 .anyRequest().authenticated()
-            .and()
-                .oauth2Login();
+                .and()
+                .oauth2Login()
+                .clientRegistrationRepository(registrationRepository)
+                .authorizedClientRepository(clientRepository)
+                .authorizedClientService(oAuth2ClientService)
+        .tokenEndpoint().accessTokenResponseClient(new DefaultAuthorizationCodeTokenResponseClient());
     }
 
     public static void main(String[] args) {
