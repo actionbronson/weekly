@@ -13,7 +13,7 @@
 
 package org.weekly.invoker;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-10T17:54:32.581872-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-16T15:10:33.748893-04:00[America/Toronto]")
 public class Pair {
     private String name = "";
     private String value = "";

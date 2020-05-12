@@ -1,0 +1,4 @@
+#spring.security.oauth2.client.registration:
+#    facebook.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/facebook
+#    google.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/google
+#    apple.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/apple

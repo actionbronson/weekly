@@ -17,26 +17,27 @@ spring:
                     facebook:
                         clientId: 238019867610264
                         clientSecret: c4500a9c054b17ceac0a80bb5e74ce0f
-                        #redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+                        redirectUri: https://{baseHost}{basePort}/login/oauth2/code/facebook
                         scope:
                             - email
                             - public_profile
                     google:
                         clientId: 787236077112-04srtj6tuvosjgg8ekvg284qgtb2r2tb.apps.googleusercontent.com
                         clientSecret: RYhUlz_Til9wYoKa5Hfxu0JD
-                        #redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+                        redirectUri: https://{baseHost}{basePort}/login/oauth2/code/google
                         scope:
                             - profile
                             - email
-                    apple:
-                        clientId: io.weekly.client
-                        clientSecret: eyJraWQiOiJBSFFSOEtDTlBTIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJNS1Y1VlQ0NDg0IiwiaWF0IjoxNTg4ODE5MTU4LCJleHAiOjE2MDQzNzExNTgsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJpby53ZWVrbHkuY2xpZW50In0.SVyPyjfxfts8Z0sv4Gpef6niXHCN1ekBagt7frHIOu6k0VR8Fj-cgNoqwgqlGHxHmlAfI-ecS-ugdOgHihhcmw
-                        scope:
-                            - name
-                            - email
-                        authorization-grant-type: authorization_code
-                        redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
-                        client-name: Apple
+#                    apple:
+#                        clientId: io.weekly.client
+#                        clientSecret: eyJraWQiOiJBSFFSOEtDTlBTIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJNS1Y1VlQ0NDg0IiwiaWF0IjoxNTg4ODE5MTU4LCJleHAiOjE2MDQzNzExNTgsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJpby53ZWVrbHkuY2xpZW50In0.SVyPyjfxfts8Z0sv4Gpef6niXHCN1ekBagt7frHIOu6k0VR8Fj-cgNoqwgqlGHxHmlAfI-ecS-ugdOgHihhcmw
+#                        scope:
+#                            - name
+#                            - email
+#                        authorization-grant-type: authorization_code
+#                        redirectUri: '{baseUrl}/login/oauth2/code/apple'
+#                        #redirectUriTemplate: '{baseUrl}/login/oauth2/code/{registrationId}'
+#                        client-name: Apple
                 provider:
                     facebook:
                         authorizationUri: https://www.facebook.com/v6.0/dialog/oauth
@@ -46,8 +47,8 @@ spring:
                         authorizationUri: https://accounts.google.com/o/oauth2/v2/auth
                         tokenUri: https://oauth2.googleapis.com/token
                         userInfoUri: https://openidconnect.googleapis.com/v1/userinfo
-                    apple:
-                        authorizationUri: https://appleid.apple.com/auth/authorize?response_mode=form_post&response_type=code
-                        tokenUri: https://appleid.apple.com/auth/token
-                        userInfo: https://appleid.apple.com/auth/userInfo
-                        redirectUriTemplate: '{baseUrl}/login/oauth2/code/{registrationId}'
+#                    apple:
+#                        authorizationUri: https://appleid.apple.com/auth/authorize?response_mode=form_post&response_type=code
+#                        tokenUri: https://appleid.apple.com/auth/token
+#                        userInfo: https://appleid.apple.com/auth/userInfo
+#                        redirectUriTemplate: '{baseUrl}/login/oauth2/code/{registrationId}'

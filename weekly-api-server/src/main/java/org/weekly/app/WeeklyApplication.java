@@ -1,8 +1,10 @@
 package org.weekly.app;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
@@ -22,11 +24,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
-import org.springframework.security.oauth2.client.endpoint.NimbusAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.weekly.api.CalendarApi;
 import org.weekly.api.impl.CalendarApiServiceImpl;
 
@@ -42,6 +41,13 @@ import java.util.Set;
         prePostEnabled = true,
         securedEnabled = true,
         jsr250Enabled = true)
+@OpenAPIDefinition(
+    info = @Info(version = "3.0.1", description = "Weekly API Server"),
+    servers = {
+        @Server(url = "https://localhost:8443/api/rest/v1", description = "Local development server"),
+        @Server(url = "https://weekplanner.app/api/rest/v1", description = "Production Azure server")
+    }
+)
 public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -71,11 +77,12 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
     @Bean
     public OpenApiFeature getOpenApiFeature() {
         OpenApiFeature feature = new OpenApiFeature();
-        feature.setVersion("3.0.0");
         feature.setPrettyPrint(true);
-        feature.setResourcePackages(Set.of("org.weekly.api"));
-        feature.setDescription("Weekly Rest API");
+        feature.setResourcePackages(Set.of("org.weekly"));
+        //feature.setDescription("Weekly Rest API");
         feature.setSupportSwaggerUi(true);
+        feature.setUseContextBasedConfig(true);
+        //feature.setConfigLocation("classpath:weekly.yaml");
         feature.setSwaggerUiMavenGroupAndArtifact("org.webjars.swagger-ui");
         feature.setSwaggerUiVersion("3.25.0");
         return feature;
@@ -97,7 +104,7 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public Server jaxRsServer(JacksonJsonProvider provider,
+    public org.apache.cxf.endpoint.Server jaxRsServer(JacksonJsonProvider provider,
                               @Qualifier("serviceBeans") List<Object> serviceBeans,
                               @Qualifier("features") List<AbstractFeature> features,
                               ValidationExceptionMapper validationExceptionMapper) {

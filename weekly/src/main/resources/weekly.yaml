@@ -4,11 +4,16 @@ info:
   title: Weekly
   license:
     name: MIT
+
 servers:
-  - url: http://localhost:8080/api/rest/v1
-    description: Development server
+  - url: https://localhost:8443/api/rest/v1
+    description: Local development server
+
+  - url: https://weekplanner.app/api/rest/v1
+    description: Production server
+
 schemes:
-  - http
+  - https
 
 security:
   - oAuthFacebook:
