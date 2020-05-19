@@ -1,6 +1,6 @@
 # TaskApi
 
-All URIs are relative to *http://localhost:8080/api/rest/v1*
+All URIs are relative to *https://localhost:8443/api/rest/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
