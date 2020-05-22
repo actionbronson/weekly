@@ -30,8 +30,12 @@ import org.weekly.model.TaskState;
 /**
  * Task
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-16T15:10:33.748893-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-28T22:41:12.579285-04:00[America/Toronto]")
 public class Task {
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
+  private String id = null;
+
   public static final String SERIALIZED_NAME_LABEL = "label";
   @SerializedName(SERIALIZED_NAME_LABEL)
   private TaskLabel label = null;
@@ -51,6 +55,28 @@ public class Task {
   public static final String SERIALIZED_NAME_STATE = "state";
   @SerializedName(SERIALIZED_NAME_STATE)
   private TaskState state = null;
+
+  public static final String SERIALIZED_NAME_WEEK_NO = "weekNo";
+  @SerializedName(SERIALIZED_NAME_WEEK_NO)
+  private Integer weekNo = null;
+
+  public Task id(String id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public Task label(TaskLabel label) {
     this.label = label;
@@ -142,6 +168,24 @@ public class Task {
     this.state = state;
   }
 
+  public Task weekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+    return this;
+  }
+
+   /**
+   * Get weekNo
+   * @return weekNo
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getWeekNo() {
+    return weekNo;
+  }
+
+  public void setWeekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -152,16 +196,18 @@ public class Task {
       return false;
     }
     Task task = (Task) o;
-    return Objects.equals(this.label, task.label) &&
+    return Objects.equals(this.id, task.id) &&
+        Objects.equals(this.label, task.label) &&
         Objects.equals(this.priority, task.priority) &&
         Objects.equals(this.summary, task.summary) &&
         Objects.equals(this.contents, task.contents) &&
-        Objects.equals(this.state, task.state);
+        Objects.equals(this.state, task.state) &&
+        Objects.equals(this.weekNo, task.weekNo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(label, priority, summary, contents, state);
+    return Objects.hash(id, label, priority, summary, contents, state, weekNo);
   }
 
 
@@ -170,11 +216,13 @@ public class Task {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    summary: ").append(toIndentedString(summary)).append("\n");
     sb.append("    contents: ").append(toIndentedString(contents)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

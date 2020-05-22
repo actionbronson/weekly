@@ -39,7 +39,7 @@ public interface CalendarApi  {
     @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The current week", response = Week.class) })
-    public Week getCurrentWeek(@QueryParam("tz") @NotNull String tz);
+    public Week getCurrentWeek(@QueryParam("tz") @NotNull  String tz);
 
     /**
      * Get next week.
@@ -51,7 +51,7 @@ public interface CalendarApi  {
     @ApiOperation(value = "Get next week.", tags={ "calendar",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The next week", response = Week.class) })
-    public Week getNextWeek(@QueryParam("weekNo") @NotNull Integer weekNo, @QueryParam("weekYear") @NotNull Integer weekYear);
+    public Week getNextWeek(@QueryParam("weekNo") @NotNull  Integer weekNo, @QueryParam("weekYear") @NotNull  Integer weekYear);
 
     /**
      * Get previous week.
@@ -63,6 +63,6 @@ public interface CalendarApi  {
     @ApiOperation(value = "Get previous week.", tags={ "calendar" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The previous week", response = Week.class) })
-    public Week getPreviousWeek(@QueryParam("weekNo") @NotNull Integer weekNo, @QueryParam("weekYear") @NotNull Integer weekYear);
+    public Week getPreviousWeek(@QueryParam("weekNo") @NotNull  Integer weekNo, @QueryParam("weekYear") @NotNull  Integer weekYear);
 }
 

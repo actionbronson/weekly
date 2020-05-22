@@ -14,14 +14,9 @@
 package org.weekly.api;
 
 import org.weekly.invoker.ApiException;
-import org.weekly.model.Task;
 import org.junit.Test;
 import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.weekly.model.Task;
 
 /**
  * API tests for TaskApi

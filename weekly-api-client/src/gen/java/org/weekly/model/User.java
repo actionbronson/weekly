@@ -23,15 +23,19 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.weekly.model.Task;
+import org.weekly.model.UserId;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-16T15:10:33.748893-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-28T22:41:12.579285-04:00[America/Toronto]")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Integer id = null;
+  private UserId id = null;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -45,7 +49,11 @@ public class User {
   @SerializedName(SERIALIZED_NAME_PREFERENCES)
   private Object preferences = null;
 
-  public User id(Integer id) {
+  public static final String SERIALIZED_NAME_TASKS = "tasks";
+  @SerializedName(SERIALIZED_NAME_TASKS)
+  private List<Task> tasks = null;
+
+  public User id(UserId id) {
     this.id = id;
     return this;
   }
@@ -55,11 +63,11 @@ public class User {
    * @return id
   **/
   @ApiModelProperty(required = true, value = "")
-  public Integer getId() {
+  public UserId getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(UserId id) {
     this.id = id;
   }
 
@@ -72,7 +80,7 @@ public class User {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }
@@ -117,6 +125,32 @@ public class User {
     this.preferences = preferences;
   }
 
+  public User tasks(List<Task> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public User addTasksItem(Task tasksItem) {
+    if (this.tasks == null) {
+      this.tasks = new ArrayList<>();
+    }
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
+   /**
+   * Get tasks
+   * @return tasks
+  **/
+  @ApiModelProperty(value = "")
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -130,12 +164,13 @@ public class User {
     return Objects.equals(this.id, user.id) &&
         Objects.equals(this.name, user.name) &&
         Objects.equals(this.alias, user.alias) &&
-        Objects.equals(this.preferences, user.preferences);
+        Objects.equals(this.preferences, user.preferences) &&
+        Objects.equals(this.tasks, user.tasks);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, alias, preferences);
+    return Objects.hash(id, name, alias, preferences, tasks);
   }
 
 
@@ -148,6 +183,7 @@ public class User {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
     sb.append("    preferences: ").append(toIndentedString(preferences)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("}");
     return sb.toString();
   }
