@@ -6,12 +6,3 @@ server:
       key-store: classpath:keystore.p12
       key-store-password: password
       key-alias: tomcat
-
-#spring.security.oauth2.client.registration:
-#    facebook.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/facebook
-#    google.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/google3
-#    apple.redirectUri: https://{baseHost}{basePort}/login/oauth2/code/apple
-#spring.security.oauth2.client.registration:
-#  facebook.redirectUri: http://{baseHost}{basePort}/login/oauth2/code/facebook
-#  google.redirectUri: http://{baseHost}{basePort}/login/oauth2/code/google3
-#  apple.redirectUri: http://{baseHost}{basePort}/login/oauth2/code/apple

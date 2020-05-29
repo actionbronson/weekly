@@ -27,69 +27,8 @@ import java.io.IOException;
 /**
  * Preferences
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-16T15:10:33.748893-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-05-28T22:41:12.579285-04:00[America/Toronto]")
 public class Preferences {
-  /**
-   * Gets or Sets weekStart
-   */
-  @JsonAdapter(WeekStartEnum.Adapter.class)
-  public enum WeekStartEnum {
-    SUN("SUN"),
-    
-    MON("MON"),
-    
-    TUE("TUE"),
-    
-    WED("WED"),
-    
-    THU("THU"),
-    
-    FRI("FRI"),
-    
-    SAT("SAT");
-
-    private String value;
-
-    WeekStartEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static WeekStartEnum fromValue(String text) {
-      for (WeekStartEnum b : WeekStartEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-
-    public static class Adapter extends TypeAdapter<WeekStartEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final WeekStartEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public WeekStartEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
-        return WeekStartEnum.fromValue(String.valueOf(value));
-      }
-    }
-  }
-
-  public static final String SERIALIZED_NAME_WEEK_START = "weekStart";
-  @SerializedName(SERIALIZED_NAME_WEEK_START)
-  private WeekStartEnum weekStart = null;
-
   public static final String SERIALIZED_NAME_TIME_ZONE = "timeZone";
   @SerializedName(SERIALIZED_NAME_TIME_ZONE)
   private String timeZone = null;
@@ -97,24 +36,6 @@ public class Preferences {
   public static final String SERIALIZED_NAME_DRAG_TO_NEXT_WEEK = "dragToNextWeek";
   @SerializedName(SERIALIZED_NAME_DRAG_TO_NEXT_WEEK)
   private Boolean dragToNextWeek = null;
-
-  public Preferences weekStart(WeekStartEnum weekStart) {
-    this.weekStart = weekStart;
-    return this;
-  }
-
-   /**
-   * Get weekStart
-   * @return weekStart
-  **/
-  @ApiModelProperty(value = "")
-  public WeekStartEnum getWeekStart() {
-    return weekStart;
-  }
-
-  public void setWeekStart(WeekStartEnum weekStart) {
-    this.weekStart = weekStart;
-  }
 
   public Preferences timeZone(String timeZone) {
     this.timeZone = timeZone;
@@ -162,14 +83,13 @@ public class Preferences {
       return false;
     }
     Preferences preferences = (Preferences) o;
-    return Objects.equals(this.weekStart, preferences.weekStart) &&
-        Objects.equals(this.timeZone, preferences.timeZone) &&
+    return Objects.equals(this.timeZone, preferences.timeZone) &&
         Objects.equals(this.dragToNextWeek, preferences.dragToNextWeek);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(weekStart, timeZone, dragToNextWeek);
+    return Objects.hash(timeZone, dragToNextWeek);
   }
 
 
@@ -178,7 +98,6 @@ public class Preferences {
     StringBuilder sb = new StringBuilder();
     sb.append("class Preferences {\n");
     
-    sb.append("    weekStart: ").append(toIndentedString(weekStart)).append("\n");
     sb.append("    timeZone: ").append(toIndentedString(timeZone)).append("\n");
     sb.append("    dragToNextWeek: ").append(toIndentedString(dragToNextWeek)).append("\n");
     sb.append("}");

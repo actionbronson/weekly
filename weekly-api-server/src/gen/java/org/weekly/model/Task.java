@@ -19,6 +19,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Task  {
   
   @ApiModelProperty(value = "")
+  private String id = null;
+
+  @ApiModelProperty(value = "")
   @Valid
   private TaskLabel label = null;
 
@@ -35,6 +38,27 @@ public class Task  {
   @ApiModelProperty(value = "")
   @Valid
   private TaskState state = null;
+
+  @ApiModelProperty(value = "")
+  private Integer weekNo = null;
+ /**
+   * Get id
+   * @return id
+  **/
+  @JsonProperty("id")
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Task id(String id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get label
    * @return label
@@ -125,17 +149,37 @@ public class Task  {
     return this;
   }
 
+ /**
+   * Get weekNo
+   * @return weekNo
+  **/
+  @JsonProperty("weekNo")
+  public Integer getWeekNo() {
+    return weekNo;
+  }
+
+  public void setWeekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+  }
+
+  public Task weekNo(Integer weekNo) {
+    this.weekNo = weekNo;
+    return this;
+  }
+
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    summary: ").append(toIndentedString(summary)).append("\n");
     sb.append("    contents: ").append(toIndentedString(contents)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

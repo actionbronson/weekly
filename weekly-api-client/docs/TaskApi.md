@@ -16,17 +16,9 @@ Create a task.
 ### Example
 ```java
 // Import classes:
-//import org.weekly.invoker.ApiClient;
 //import org.weekly.invoker.ApiException;
-//import org.weekly.invoker.Configuration;
-//import org.weekly.invoker.auth.*;
 //import org.weekly.api.TaskApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: oAuthFacebook
-OAuth oAuthFacebook = (OAuth) defaultClient.getAuthentication("oAuthFacebook");
-oAuthFacebook.setAccessToken("YOUR ACCESS TOKEN");
 
 TaskApi apiInstance = new TaskApi();
 Integer weekNo = 56; // Integer | ISO 8601 relative week (number).
@@ -53,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oAuthFacebook](../README.md#oAuthFacebook)
+No authorization required
 
 ### HTTP request headers
 

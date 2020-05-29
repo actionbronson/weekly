@@ -17,7 +17,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,9 +28,7 @@ import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationC
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.weekly.api.CalendarApi;
-import org.weekly.api.impl.CalendarApiServiceImpl;
 
-import javax.sql.DataSource;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +47,8 @@ import java.util.Set;
         @Server(url = "https://weekplanner.app/api/rest/v1", description = "Production Azure server")
     }
 )
+@EnableMongoRepositories
+@ComponentScan(basePackages = {"org.weekly.store", "org.weekly.api.impl"})
 public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -67,22 +68,20 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
         return new JacksonJsonProvider();
     }
 
-    @Bean
-    public JdbcTemplate getJdbcTemplate(DataSource dataSource) {
-        JdbcTemplate template = new JdbcTemplate(dataSource);
-        template.setFetchSize(1024);
-        return template;
-    }
+//    @Bean
+//    public JdbcTemplate getJdbcTemplate(DataSource dataSource) {
+//        JdbcTemplate template = new JdbcTemplate(dataSource);
+//        template.setFetchSize(1024);
+//        return template;
+//    }
 
     @Bean
     public OpenApiFeature getOpenApiFeature() {
         OpenApiFeature feature = new OpenApiFeature();
         feature.setPrettyPrint(true);
         feature.setResourcePackages(Set.of("org.weekly"));
-        //feature.setDescription("Weekly Rest API");
         feature.setSupportSwaggerUi(true);
         feature.setUseContextBasedConfig(true);
-        //feature.setConfigLocation("classpath:weekly.yaml");
         feature.setSwaggerUiMavenGroupAndArtifact("org.webjars.swagger-ui");
         feature.setSwaggerUiVersion("3.25.0");
         return feature;
@@ -93,13 +92,8 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
         return List.of(feature, new BeanValidationFeature());
     }
 
-    @Bean
-    public CalendarApi getCalendarApi() {
-        return new CalendarApiServiceImpl();
-    }
-
     @Bean("serviceBeans")
-    public List<Object> getServiceBeans(CalendarApi calendarApi) {
+    public List<Object> getServiceBeans(@Autowired CalendarApi calendarApi) {
         return Arrays.asList(calendarApi);
     }
 

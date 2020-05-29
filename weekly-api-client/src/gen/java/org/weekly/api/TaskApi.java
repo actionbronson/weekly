@@ -102,7 +102,7 @@ public class TaskApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] { "oAuthFacebook" };
+        String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 

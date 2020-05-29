@@ -15,11 +15,6 @@ servers:
 schemes:
   - https
 
-security:
-  - oAuthFacebook:
-      - get-tasks
-      - post-tasks
-
 paths:
   /week:
     get:
@@ -133,10 +128,6 @@ paths:
           required: true
           schema:
             type: integer
-      security:
-        - oAuthFacebook:
-            - get-tasks
-            - post-tasks
       responses:
         '200':
           description: Created task.
@@ -198,14 +189,29 @@ components:
             public_profile: public_profile
 
   schemas:
+
+    UserId:
+      type: object
+      required:
+        - provider
+        - email
+      properties:
+        provider:
+          type: string
+          nullable: false
+        email:
+          type: string
+          nullable: false
+
     User:
       type: object
       required:
         - id
-        - name
       properties:
         id:
-          type: integer
+          x-id: "@org.springframework.data.annotation.Id"
+          allOf:
+            - $ref: "#/components/schemas/UserId"
         name:
           type: string
         alias:
@@ -214,13 +220,15 @@ components:
           type: object
           properties:
             $ref: "#/components/schemas/Preferences"
+        tasks:
+          type: array
+          default: []
+          items:
+            $ref: "#/components/schemas/Task"
 
     Preferences:
       type: object
       properties:
-        weekStart:
-          type: string
-          enum: [SUN,MON,TUE,WED,THU,FRI,SAT]
         timeZone:
           type: string
         dragToNextWeek:
@@ -261,6 +269,9 @@ components:
     Task:
       type: object
       properties:
+        id:
+          type: string
+          nullable: false
         label:
           $ref: "#/components/schemas/TaskLabel"
         priority:
@@ -277,6 +288,9 @@ components:
         state:
           nullable: false
           $ref: "#/components/schemas/TaskState"
+        weekNo:
+          nullable: false
+          type: integer
 
     Day:
       type: object
@@ -295,8 +309,6 @@ components:
         weekNo:
           type: integer
           nullable: false
-#          minValue: 1
-#          maxValue: 53
         start:
           nullable: false
           $ref: "#/components/schemas/Day"

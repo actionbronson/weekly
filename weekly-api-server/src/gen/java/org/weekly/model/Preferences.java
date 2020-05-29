@@ -15,67 +15,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Preferences  {
   
-@XmlType(name="WeekStartEnum")
-@XmlEnum(String.class)
-public enum WeekStartEnum {
-
-@XmlEnumValue("SUN") SUN(String.valueOf("SUN")), @XmlEnumValue("MON") MON(String.valueOf("MON")), @XmlEnumValue("TUE") TUE(String.valueOf("TUE")), @XmlEnumValue("WED") WED(String.valueOf("WED")), @XmlEnumValue("THU") THU(String.valueOf("THU")), @XmlEnumValue("FRI") FRI(String.valueOf("FRI")), @XmlEnumValue("SAT") SAT(String.valueOf("SAT"));
-
-
-    private String value;
-
-    WeekStartEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    public static WeekStartEnum fromValue(String v) {
-        for (WeekStartEnum b : WeekStartEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
-                return b;
-            }
-        }
-        return null;
-    }
-}
-
-  @ApiModelProperty(value = "")
-  private WeekStartEnum weekStart = null;
-
   @ApiModelProperty(value = "")
   private String timeZone = null;
 
   @ApiModelProperty(value = "")
   private Boolean dragToNextWeek = null;
- /**
-   * Get weekStart
-   * @return weekStart
-  **/
-  @JsonProperty("weekStart")
-  public String getWeekStart() {
-    if (weekStart == null) {
-      return null;
-    }
-    return weekStart.value();
-  }
-
-  public void setWeekStart(WeekStartEnum weekStart) {
-    this.weekStart = weekStart;
-  }
-
-  public Preferences weekStart(WeekStartEnum weekStart) {
-    this.weekStart = weekStart;
-    return this;
-  }
-
  /**
    * Get timeZone
    * @return timeZone
@@ -118,7 +62,6 @@ public enum WeekStartEnum {
     StringBuilder sb = new StringBuilder();
     sb.append("class Preferences {\n");
     
-    sb.append("    weekStart: ").append(toIndentedString(weekStart)).append("\n");
     sb.append("    timeZone: ").append(toIndentedString(timeZone)).append("\n");
     sb.append("    dragToNextWeek: ").append(toIndentedString(dragToNextWeek)).append("\n");
     sb.append("}");

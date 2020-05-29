@@ -1,5 +1,9 @@
 package org.weekly.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.weekly.model.Task;
+import org.weekly.model.UserId;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -16,9 +20,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User  {
   
   @ApiModelProperty(required = true, value = "")
-  private Integer id = null;
+  @Valid
+  private UserId id = null;
 
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   private String name = null;
 
   @ApiModelProperty(value = "")
@@ -26,21 +31,26 @@ public class User  {
 
   @ApiModelProperty(value = "")
   private Object preferences = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private List<Task> tasks = null;
  /**
    * Get id
    * @return id
   **/
   @JsonProperty("id")
+    @org.springframework.data.annotation.Id
   @NotNull
-  public Integer getId() {
+  public UserId getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(UserId id) {
     this.id = id;
   }
 
-  public User id(Integer id) {
+  public User id(UserId id) {
     this.id = id;
     return this;
   }
@@ -50,7 +60,6 @@ public class User  {
    * @return name
   **/
   @JsonProperty("name")
-  @NotNull
   public String getName() {
     return name;
   }
@@ -100,6 +109,29 @@ public class User  {
     return this;
   }
 
+ /**
+   * Get tasks
+   * @return tasks
+  **/
+  @JsonProperty("tasks")
+  public List<Task> getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(List<Task> tasks) {
+    this.tasks = tasks;
+  }
+
+  public User tasks(List<Task> tasks) {
+    this.tasks = tasks;
+    return this;
+  }
+
+  public User addTasksItem(Task tasksItem) {
+    this.tasks.add(tasksItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -110,6 +142,7 @@ public class User  {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
     sb.append("    preferences: ").append(toIndentedString(preferences)).append("\n");
+    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("}");
     return sb.toString();
   }

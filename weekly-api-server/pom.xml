@@ -89,9 +89,15 @@
             <!-- RELEASE_VERSION -->
             <version>3.0.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.4</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -158,6 +164,19 @@
             <version>4.13</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>de.bwaldvogel</groupId>
+            <artifactId>mongo-java-server</artifactId>
+            <version>1.29.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-cosmos</artifactId>
+            <version>4.0.1-beta.2</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -171,6 +190,7 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -207,12 +227,14 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/../weekly/src/main/resources/weekly.yaml</inputSpec>
+                            <templateDirectory>${project.basedir}/src/main/resources/cxf</templateDirectory>
                             <apiPackage>org.weekly.api</apiPackage>
                             <modelPackage>org.weekly.model</modelPackage>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <generatorName>jaxrs-cxf</generatorName>
                             <output>.</output>
                             <withXml>false</withXml>
+                            <verbose>true</verbose>
                             <configOptions>
                                 <sourceFolder>src/gen/java</sourceFolder>
                                 <java8>true</java8>
@@ -228,12 +250,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>2.22.2</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
