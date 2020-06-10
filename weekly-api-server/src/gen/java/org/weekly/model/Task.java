@@ -1,5 +1,7 @@
 package org.weekly.model;
 
+import java.time.OffsetDateTime;
+import org.weekly.model.BasicObject;
 import org.weekly.model.TaskLabel;
 import org.weekly.model.TaskPriority;
 import org.weekly.model.TaskState;
@@ -16,7 +18,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Task  {
+public class Task extends BasicObject {
   
   @ApiModelProperty(value = "")
   private String id = null;
@@ -38,6 +40,9 @@ public class Task  {
   @ApiModelProperty(value = "")
   @Valid
   private TaskState state = null;
+
+  @ApiModelProperty(value = "")
+  private Integer weekYear = null;
 
   @ApiModelProperty(value = "")
   private Integer weekNo = null;
@@ -150,6 +155,24 @@ public class Task  {
   }
 
  /**
+   * Get weekYear
+   * @return weekYear
+  **/
+  @JsonProperty("weekYear")
+  public Integer getWeekYear() {
+    return weekYear;
+  }
+
+  public void setWeekYear(Integer weekYear) {
+    this.weekYear = weekYear;
+  }
+
+  public Task weekYear(Integer weekYear) {
+    this.weekYear = weekYear;
+    return this;
+  }
+
+ /**
    * Get weekNo
    * @return weekNo
   **/
@@ -172,13 +195,14 @@ public class Task  {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    summary: ").append(toIndentedString(summary)).append("\n");
     sb.append("    contents: ").append(toIndentedString(contents)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    weekYear: ").append(toIndentedString(weekYear)).append("\n");
     sb.append("    weekNo: ").append(toIndentedString(weekNo)).append("\n");
     sb.append("}");
     return sb.toString();

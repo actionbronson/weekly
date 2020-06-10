@@ -60,9 +60,21 @@ public interface CalendarApi  {
     @GET
     @Path("/week/previous")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Get previous week.", tags={ "calendar" })
+    @ApiOperation(value = "Get previous week.", tags={ "calendar",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The previous week", response = Week.class) })
     public Week getPreviousWeek(@QueryParam("weekNo") @NotNull  Integer weekNo, @QueryParam("weekYear") @NotNull  Integer weekYear);
+
+    /**
+     * Get current week based on a timezone
+     *
+     */
+    @GET
+    @Path("/week/{weekYear}/{weekNo}")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get current week based on a timezone", tags={ "calendar" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The week", response = Week.class) })
+    public Week getWeekOf(@PathParam("weekNo") Integer weekNo, @PathParam("weekYear") Integer weekYear);
 }
 

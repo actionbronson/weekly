@@ -6,5 +6,5 @@ import org.weekly.model.User;
 import org.weekly.model.UserId;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, UserId>, TaskRepository {
+public interface UserRepository extends MongoRepository<User, UserId>, UserRepositoryTaskMethods, UserRepositoryCurrentUserMethods {
 }

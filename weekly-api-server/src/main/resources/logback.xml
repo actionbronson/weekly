@@ -14,7 +14,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <logger name="org.weekly" level="trace" additivity="false">
+    <logger name="org.weekly" level="info" additivity="false">
         <appender-ref ref="Console" />
     </logger>
 

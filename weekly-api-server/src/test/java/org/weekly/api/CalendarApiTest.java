@@ -52,7 +52,6 @@ import java.time.ZoneId;
  */
 @RunWith(MockitoJUnitRunner.class)
 @ComponentScan(basePackages = "org.weekly.api")
-//@ContextConfiguration(loader= AnnotationConfigContextLoader.class)
 public class CalendarApiTest {
     @Mock
     private CalendarApiServiceImpl calendarApiService;

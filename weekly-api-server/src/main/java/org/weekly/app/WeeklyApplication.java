@@ -28,6 +28,8 @@ import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationC
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.weekly.api.CalendarApi;
+import org.weekly.api.TasksApi;
+import org.weekly.store.UserRepository;
 
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
@@ -47,8 +49,8 @@ import java.util.Set;
         @Server(url = "https://weekplanner.app/api/rest/v1", description = "Production Azure server")
     }
 )
-@EnableMongoRepositories
-@ComponentScan(basePackages = {"org.weekly.store", "org.weekly.api.impl"})
+@EnableMongoRepositories(basePackageClasses={UserRepository.class})
+@ComponentScan(basePackages = {"org.weekly.store", "org.weekly.api.impl", "org.weekly.security"})
 public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -68,13 +70,6 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
         return new JacksonJsonProvider();
     }
 
-//    @Bean
-//    public JdbcTemplate getJdbcTemplate(DataSource dataSource) {
-//        JdbcTemplate template = new JdbcTemplate(dataSource);
-//        template.setFetchSize(1024);
-//        return template;
-//    }
-
     @Bean
     public OpenApiFeature getOpenApiFeature() {
         OpenApiFeature feature = new OpenApiFeature();
@@ -93,8 +88,8 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
     }
 
     @Bean("serviceBeans")
-    public List<Object> getServiceBeans(@Autowired CalendarApi calendarApi) {
-        return Arrays.asList(calendarApi);
+    public List<Object> getServiceBeans(@Autowired CalendarApi calendarApi, @Autowired TasksApi tasksApi) {
+        return Arrays.asList(calendarApi, tasksApi);
     }
 
     @Bean
@@ -130,7 +125,8 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
                 .clientRegistrationRepository(registrationRepository)
                 .authorizedClientRepository(clientRepository)
                 .authorizedClientService(oAuth2ClientService)
-        .tokenEndpoint().accessTokenResponseClient(new DefaultAuthorizationCodeTokenResponseClient());
+                .tokenEndpoint().accessTokenResponseClient(new DefaultAuthorizationCodeTokenResponseClient());
+        http.csrf().disable();
     }
 
     public static void main(String[] args) {

@@ -3,8 +3,6 @@ package org.weekly.api.impl;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Controller;
 import org.threeten.extra.YearWeek;
 import org.weekly.api.CalendarApi;
@@ -35,15 +33,8 @@ public class CalendarApiServiceImpl implements CalendarApi {
 
     private final Logger logger = LoggerFactory.getLogger(CalendarApiServiceImpl.class);
 
-    @Autowired
-    private OAuth2AuthorizedClientService oAuth2ClientService;
-
     @Override
     public Week getCurrentWeek(@NotNull String tz) {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        OAuth2AuthenticationToken auth = (OAuth2AuthenticationToken) context.getAuthentication();
-//        OAuth2AuthorizedClient client = oAuth2ClientService.loadAuthorizedClient(auth.getAuthorizedClientRegistrationId(), auth.getName());
-//        String token = client.getAccessToken().getTokenValue();
         try {
             final ZoneId zoneId = Try.of(() -> ZoneId.of(tz))
                     .orElse(Try.of(() -> TimeZone.getTimeZone(tz).toZoneId()))
@@ -86,6 +77,15 @@ public class CalendarApiServiceImpl implements CalendarApi {
                 .weekNo(startOfPreviousWeek.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR))
                 .start(fromDayOfWeek(startOfPreviousWeek))
                 .end(fromDayOfWeek(endOfPreviousWeek));
+    }
+
+    @Override
+    public Week getWeekOf(Integer weekNo, Integer weekYear) {
+        return new Week()
+                .weekNo(weekNo)
+                .year(weekYear)
+                .start(fromDayOfWeek(startOfWeek(weekNo, weekYear)))
+                .end(fromDayOfWeek(endOfWeek(weekNo, weekYear)));
     }
 
     public LocalDate getNow(ZoneId zoneId) {
