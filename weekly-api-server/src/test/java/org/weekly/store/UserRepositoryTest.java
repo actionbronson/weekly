@@ -99,7 +99,7 @@ public class UserRepositoryTest {
 
     @Test
     public void validate_Irina_Tasks() {
-        List<Task> tasks = repository.getAllTasks(IRINA, Sort.by("weekNo").ascending());
+        List<Task> tasks = repository.getAllTasks(IRINA);
         Assert.assertEquals(
             tasks.stream().map(t -> t.getWeekNo()).collect(Collectors.toList()),
             IntStream.range(4,25).boxed().collect(Collectors.toList())

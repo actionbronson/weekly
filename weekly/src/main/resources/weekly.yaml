@@ -41,6 +41,35 @@ paths:
               schema:
                 $ref: "#/components/schemas/Week"
 
+  /week/{weekYear}/{weekNo}:
+    get:
+      summary: Get current week based on a timezone
+      operationId: getWeekOf
+      tags:
+        - calendar
+      parameters:
+        - name: weekNo
+          in: path
+          description: ISO 8601 relative week (number).
+          required: true
+          schema:
+            type: integer
+            minValue: 1
+            maxValue: 53
+        - name: weekYear
+          in: path
+          description: ISO 8601 relative week (year).
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The week
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Week"
+
   /week/next:
     get:
       summary: Get next week.
@@ -107,75 +136,126 @@ paths:
               schema:
                 $ref: "#/components/schemas/Week"
 
-  /week/{weekYear}/{weekNo}/tasks:
-    post:
-      summary: Create a task.
-      operationId: createTask
+  /tasks:
+    get:
+      summary: Get tasks for a week.
+      operationId: getTasks
       tags:
-        - task
+        - tasks
       parameters:
         - name: weekNo
-          in: path
-          description: ISO 8601 relative week (number).
+          in: query
+          description: ISO 8601 relative week (number).  Defaults to current weekNo.
           required: true
           schema:
             type: integer
             minValue: 1
             maxValue: 53
         - name: weekYear
-          in: path
-          description: ISO 8601 relative week (year).
+          in: query
+          description: ISO 8601 relative week (year).  Defaults to current weekYear.
           required: true
           schema:
             type: integer
       responses:
         '200':
-          description: Created task.
+          description: .
           content:
             application/json:
               schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+
+    post:
+      summary: Create tasks.
+      operationId: createTasks
+      tags:
+        - tasks
+      parameters:
+        - name: weekNo
+          in: query
+          description: ISO 8601 relative week (number).  Defaults to current weekNo.
+          required: true
+          schema:
+            type: integer
+            minValue: 1
+            maxValue: 53
+        - name: weekYear
+          in: query
+          description: ISO 8601 relative week (year).  Defaults to current weekYear.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: The task(s) you wish to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
                 $ref: "#/components/schemas/Task"
 
-#    post:
-#      summary: Create a pet
-#      operationId: createPets
-#      tags:
-#        - pets
-#      responses:
-#        '201':
-#          description: Null response
-#        default:
-#          description: unexpected error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/Error"
-#  /pets/{petId}:
-#    get:
-#      summary: Info for a specific pet
-#      operationId: showPetById
-#      tags:
-#        - pets
-#      parameters:
-#        - name: petId
-#          in: path
-#          required: true
-#          description: The id of the pet to retrieve
-#          schema:
-#            type: string
-#      responses:
-#        '200':
-#          description: Expected response to a valid request
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/Pet"
-#        default:
-#          description: unexpected error
-#          content:
-#            application/json:
-#              schema:
-#                $ref: "#/components/schemas/Error"
+      responses:
+        '200':
+          description: Created task(s).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    put:
+      summary: Update a task.
+      operationId: updateTask
+      tags:
+        - tasks
+      requestBody:
+        description: The task(s) you wish to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Task"
+
+      responses:
+        '200':
+          description: Updated task(s).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+
+    delete:
+      summary: Delete a task.
+      operationId: deleteTask
+      tags:
+        - tasks
+      requestBody:
+        description: The task(s) you wish to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+
+      responses:
+        '200':
+          description: Deleted task(s).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
 components:
   securitySchemes:
     oAuthFacebook:
@@ -189,6 +269,18 @@ components:
             public_profile: public_profile
 
   schemas:
+
+    BasicObject:
+      type: object
+      properties:
+        updateTs:
+          type: string
+          format: date-time
+          nullable: false
+        creationTs:
+          type: string
+          format: date-time
+          nullable: false
 
     UserId:
       type: object
@@ -204,27 +296,33 @@ components:
           nullable: false
 
     User:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          x-id: "@org.springframework.data.annotation.Id"
-          allOf:
-            - $ref: "#/components/schemas/UserId"
-        name:
-          type: string
-        alias:
-          type: string
-        preferences:
-          type: object
+      allOf:
+        - $ref: "#/components/schemas/BasicObject"
+        - type: object
+          required:
+            - id
           properties:
-            $ref: "#/components/schemas/Preferences"
-        tasks:
-          type: array
-          default: []
-          items:
-            $ref: "#/components/schemas/Task"
+            id:
+              x-id: "@org.springframework.data.annotation.Id"
+              allOf:
+                - $ref: "#/components/schemas/UserId"
+            name:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            picture:
+              type: string
+            alias:
+              type: string
+            preferences:
+              $ref: "#/components/schemas/Preferences"
+            tasks:
+              type: array
+              default: []
+              items:
+                $ref: "#/components/schemas/Task"
 
     Preferences:
       type: object
@@ -267,30 +365,35 @@ components:
           enum: [TODO,IN_PROGRESS,PROCRASTINATE,DONE]
 
     Task:
-      type: object
-      properties:
-        id:
-          type: string
-          nullable: false
-        label:
-          $ref: "#/components/schemas/TaskLabel"
-        priority:
-          $ref: "#/components/schemas/TaskPriority"
-        summary:
-          nullable: false
-          type: string
-          minLength: 3
-          maxLength: 128
-        contents:
-          nullable: true
-          type: string
-          maxLength: 65536
-        state:
-          nullable: false
-          $ref: "#/components/schemas/TaskState"
-        weekNo:
-          nullable: false
-          type: integer
+      allOf:
+        - $ref: "#/components/schemas/BasicObject"
+        - type: object
+          properties:
+            id:
+              type: string
+              nullable: false
+            label:
+              $ref: "#/components/schemas/TaskLabel"
+            priority:
+              $ref: "#/components/schemas/TaskPriority"
+            summary:
+              nullable: false
+              type: string
+              minLength: 3
+              maxLength: 128
+            contents:
+              nullable: true
+              type: string
+              maxLength: 65536
+            state:
+              nullable: false
+              $ref: "#/components/schemas/TaskState"
+            weekYear:
+              nullable: false
+              type: integer
+            weekNo:
+              nullable: false
+              type: integer
 
     Day:
       type: object
