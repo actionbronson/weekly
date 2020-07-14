@@ -27,33 +27,13 @@ package org.weekly.api;
 
 import com.google.common.collect.Lists;
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
-import static org.junit.Assert.*;
-
-import javax.ws.rs.core.Response;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.apache.cxf.jaxrs.client.ClientConfiguration;
-import org.apache.cxf.jaxrs.client.WebClient;
-
-
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.weekly.api.impl.CalendarApiServiceImpl;
 import org.weekly.api.impl.TasksApiServiceImpl;
 import org.weekly.model.Task;
@@ -61,6 +41,8 @@ import org.weekly.model.User;
 import org.weekly.model.UserId;
 import org.weekly.security.WeeklyUserFactory;
 import org.weekly.store.UserRepository;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.any;

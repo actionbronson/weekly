@@ -16,21 +16,21 @@ spring:
                 registration:
                     facebook:
                         clientId: 238019867610264
-                        clientSecret: c4500a9c054b17ceac0a80bb5e74ce0f
+                        clientSecret: ${FACEBOOK_CLIENT_SECRET_KEY}
                         redirectUri: https://{baseHost}{basePort}/login/oauth2/code/facebook
                         scope:
                             - email
                             - public_profile
                     google:
                         clientId: 787236077112-04srtj6tuvosjgg8ekvg284qgtb2r2tb.apps.googleusercontent.com
-                        clientSecret: RYhUlz_Til9wYoKa5Hfxu0JD
+                        clientSecret: ${GOOGLE_CLIENT_SECRET_KEY}
                         redirectUri: https://{baseHost}{basePort}/login/oauth2/code/google
                         scope:
                             - profile
                             - email
 #                    apple:
 #                        clientId: io.weekly.client
-#                        clientSecret: eyJraWQiOiJBSFFSOEtDTlBTIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJNS1Y1VlQ0NDg0IiwiaWF0IjoxNTg4ODE5MTU4LCJleHAiOjE2MDQzNzExNTgsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJpby53ZWVrbHkuY2xpZW50In0.SVyPyjfxfts8Z0sv4Gpef6niXHCN1ekBagt7frHIOu6k0VR8Fj-cgNoqwgqlGHxHmlAfI-ecS-ugdOgHihhcmw
+#                        clientSecret: ${APPLE_CLIENT_SECRET_KEY}
 #                        scope:
 #                            - name
 #                            - email
