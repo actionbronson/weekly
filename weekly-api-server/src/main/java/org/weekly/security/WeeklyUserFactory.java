@@ -16,6 +16,7 @@ import static java.lang.String.format;
 public class WeeklyUserFactory {
 
     public static final String FACEBOOK = "facebook";
+    public static final String GOOGLE = "google";
 
     public User fromFacebook(OAuth2User user) {
         Map<String, Map<String,Object>> picture = user.getAttribute("picture");
@@ -29,10 +30,22 @@ public class WeeklyUserFactory {
                 .id(new UserId().email(user.getAttribute("email")).provider(FACEBOOK));
     }
 
+    public User fromGoogle(OAuth2User user) {
+        String pictureUrl = user.getAttribute("picture");
+        return new User()
+                .firstName(user.getAttribute("given_name"))
+                .lastName(user.getAttribute("family_name"))
+                .name(user.getAttribute("name"))
+                .picture(pictureUrl)
+                .id(new UserId().email(user.getAttribute("email")).provider(GOOGLE));
+    }
+
     public User from(OAuth2User user, String provider) {
         switch (provider.toLowerCase()) {
             case FACEBOOK:
                 return fromFacebook(user);
+            case GOOGLE:
+                return fromGoogle(user);
             default:
                 throw new UnsupportedOperationException(format("Cannot convert from provider: '%s'", provider));
         }
