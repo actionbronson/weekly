@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TaskLabel  {
   
   @ApiModelProperty(value = "")
-  private String name = null;
+  private String name;
 
   @ApiModelProperty(value = "")
-  private String color = null;
+  private String color;
  /**
    * Get name
    * @return name

@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Preferences  {
   
   @ApiModelProperty(value = "")
-  private String timeZone = null;
+  private String timeZone;
 
   @ApiModelProperty(value = "")
-  private Boolean dragToNextWeek = null;
+  private Boolean dragToNextWeek;
  /**
    * Get timeZone
    * @return timeZone
@@ -43,7 +43,7 @@ public class Preferences  {
    * @return dragToNextWeek
   **/
   @JsonProperty("dragToNextWeek")
-  public Boolean isDragToNextWeek() {
+  public Boolean getDragToNextWeek() {
     return dragToNextWeek;
   }
 

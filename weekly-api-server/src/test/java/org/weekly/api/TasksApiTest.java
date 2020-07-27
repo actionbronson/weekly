@@ -36,14 +36,18 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.weekly.api.impl.CalendarApiServiceImpl;
 import org.weekly.api.impl.TasksApiServiceImpl;
+import org.weekly.api.model.TaskIds;
 import org.weekly.model.Task;
+import org.weekly.model.TaskId;
 import org.weekly.model.User;
 import org.weekly.model.UserId;
 import org.weekly.security.WeeklyUserFactory;
+import org.weekly.store.TaskRepository;
 import org.weekly.store.UserRepository;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
@@ -64,15 +68,17 @@ public class TasksApiTest {
     private CalendarApiServiceImpl calendarApi;
 
     @Mock
-    private WeeklyUserFactory weeklyUserFactory;
+    private UserRepository userRepository;
 
     @Mock
-    private UserRepository userRepository;
+    private TaskRepository taskRepository;
 
     @InjectMocks
     private TasksApiServiceImpl api;
 
     private User testUser = createTestUser();
+
+    private List<Task> testTasks = createTestTasks();
 
     @Before
     public void setup() {
@@ -85,66 +91,58 @@ public class TasksApiTest {
     @Test
     public void getTasksTest() {
         // given
-        when(userRepository.getAllTasks(any(), anyInt(), anyInt()))
-            .thenReturn(List.of(testUser.getTasks().get(1)));
+        when(taskRepository.getAllTasks(any(), anyInt(), anyInt()))
+            .thenReturn(List.of(testTasks.get(1)));
 
         // when
         List<Task> tasks = api.getTasks(5,2020);
 
         // then
         Assert.assertTrue(tasks.size() == 1);
-        Assert.assertEquals("jkl-mno-pqr", tasks.stream().findFirst().map(t -> t.getId()).orElseThrow());
-    }
-
-    @Test
-    public void deleteTasksTest() {
-        // given
-
-        // when
-        List<String> deleted = api.deleteTask(List.of("jkl-mno-pqr"));
-
-        // then
-        Assert.assertTrue(deleted.size() == 1);
-        Assert.assertEquals(deleted, List.of("jkl-mno-pqr"));
+        Assert.assertTrue(TaskIds.equals(new TaskId().userId(createTestUserId()).taskId("jkl-mno-pqr"), tasks.stream().findFirst().map(t -> t.getId()).orElseThrow()));
     }
 
     @Test
     public void postTasksTest() {
         // given
-        when(userRepository.save(any(User.class))).thenAnswer(a -> a.getArgument(0));
+        //when(taskRepository.createTaskWithBaseUpdate(any(User.class), any(Task.class))).thenAnswer(a -> a.getArgument(1));
+        when(taskRepository.createTasksWithBaseUpdate(any(User.class), anyCollection())).thenAnswer(a -> a.getArgument(1));
 
         // when
         List<Task> created = api.createTasks(6, 2020, List.of(
             new Task()
-                .id("stu-vwx-yza")
+                .id(new TaskId().userId(createTestUserId()).taskId("stu-vwx-yza"))
                 .contents("Do stuff")
                 .summary("Get it done!")
         ));
 
         // then
-        Assert.assertTrue(created.size() == 3);
+        Assert.assertTrue(created.size() == 1);
+    }
+
+    private UserId createTestUserId() {
+        return new UserId().email("me@me.com").provider("facebook");
     }
 
     private User createTestUser() {
         return new User()
-                .id(new UserId().email("me@me.com").provider("facebook"))
-                .tasks(createTestTasks())
+                .id(createTestUserId())
                 .firstName("Roger")
                 .lastName("Waters");
     }
 
     private List<Task> createTestTasks() {
         return Lists.newArrayList(
-                new Task()
-                        .id("abc-def-ghi")
-                        .weekNo(1).weekYear(2020)
-                        .contents("Do stuff")
-                        .summary("Get it done!"),
-                new Task()
-                        .id("jkl-mno-pqr")
-                        .weekNo(5).weekYear(2020)
-                        .contents("Do more stuff")
-                        .summary("Get it done already!")
+            new Task()
+                .id(new TaskId().userId(createTestUserId()).taskId("abc-def-ghi"))
+                .weekNo(1).weekYear(2020)
+                .contents("Do stuff")
+                .summary("Get it done!"),
+            new Task()
+                .id(new TaskId().userId(createTestUserId()).taskId("jkl-mno-pqr"))
+                .weekNo(5).weekYear(2020)
+                .contents("Do more stuff")
+                .summary("Get it done already!")
         );
     }
 

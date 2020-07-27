@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Day  {
   
   @ApiModelProperty(value = "")
-  private Integer dayOfYear = null;
+  private Integer dayOfYear;
 
   @ApiModelProperty(value = "")
-  private Integer year = null;
+  private Integer year;
  /**
    * Get dayOfYear
    * @return dayOfYear

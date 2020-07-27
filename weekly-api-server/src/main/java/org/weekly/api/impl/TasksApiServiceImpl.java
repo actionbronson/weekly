@@ -2,22 +2,26 @@ package org.weekly.api.impl;
 
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.weekly.api.CalendarApi;
 import org.weekly.api.TasksApi;
-import org.weekly.model.Task;
-import org.weekly.model.User;
-import org.weekly.model.Week;
-import org.weekly.store.ModelCreateUpdate;
+import org.weekly.model.*;
+import org.weekly.store.TaskMerger;
+import org.weekly.store.TaskRepository;
 import org.weekly.store.UserRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
+
 /**
  * Weekly
  *
@@ -33,51 +37,122 @@ public class TasksApiServiceImpl implements TasksApi {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
+    private static final Sort DEFAULT_PRIORITY_SORT = Sort.by(Sort.Order.asc("level"));
+
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<Task> createTasks(@NotNull Integer weekNo, @NotNull Integer weekYear, @Valid List<Task> tasks) {
         Week week = getWeek(weekNo, weekYear);
         User user = userRepository.getOrInsertCurrentUser();
-        tasks.stream().forEach(t -> {
-            ModelCreateUpdate.initTask(t);
-            t.weekNo(week.getWeekNo());
-            t.weekYear(week.getYear());
-            user.addTasksItem(t);
-        });
-        User persisted = userRepository.save(user);
-        return persisted.getTasks();
+        List<Task> taskWithWeek = tasks.stream()
+            .map(t -> t.weekNo(week.getWeekNo()).weekYear(week.getYear()))
+            .collect(Collectors.toList());
+        return taskRepository.createTasksWithBaseUpdate(user, taskWithWeek);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<String> deleteTask(@Valid List<String> taskIds) {
+    public Task decrementTaskPriority(String id) {
         User user = userRepository.getOrInsertCurrentUser();
-        List<Task> allTasks = Lists.newLinkedList(user.getTasks());
-        List<Task> filteredTasks =
-                user.getTasks().stream().filter(t -> ! taskIds.contains(t.getId())).collect(Collectors.toList());
-        userRepository.save(user.tasks(filteredTasks));
-        allTasks.removeAll(filteredTasks);
-        return List.copyOf(allTasks.stream().map(t -> t.getId()).collect(Collectors.toList()));
+        Task task = getIndividualTask(id);
+        List<TaskPriority> priorities = Lists.newArrayList(user.getPriorities());
+
+        priorities.sort(Comparator.comparing(TaskPriority::getLevel));
+        int indexOf = priorities.indexOf(task.getPriority());
+//        TaskLabel taskLabel =
+//                user.getLabels().stream()
+//                        .filter(tl -> tl.getName().equals(label))
+//                        .findFirst()
+//                        .orElseThrow(() -> new NoSuchElementException(format("No such TaskPriority with label: '%s'", label)));
+        Optional<TaskPriority> prevPriority = io.vavr.control.Try.of(() -> priorities.get(indexOf-1)).toJavaOptional();
+        task.priority(
+            prevPriority
+            .orElseThrow(() -> new NoSuchElementException(format("No previous priority to priority: '%s'", task.getPriority().getName()))));
+        return taskRepository.updateTaskWithBaseUpdate(user, task);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void deleteTasks(@Valid List<String> taskUuids) {
+        User user = userRepository.getOrInsertCurrentUser();
+        List<TaskId> taskIds = taskUuids.stream()
+                .map(u -> new TaskId().userId(user.getId()).taskId(u))
+                .collect(Collectors.toList());
+        taskIds.forEach(t -> taskRepository.deleteById(t));
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Task getIndividualTask(String id) {
+        User user = userRepository.getOrInsertCurrentUser();
+        return taskRepository.getTask(user.getId(), id);
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public List<Task> getTasks(Integer weekNo, Integer weekYear) {
-        Week w = getWeek(weekNo, weekYear);
         User user = userRepository.getOrInsertCurrentUser();
-        List<Task> ts = userRepository.getAllTasks(user.getId(), w.getYear(), w.getWeekNo());
-        return userRepository.getAllTasks(user.getId(), w.getYear(), w.getWeekNo());
+        if (weekYear == null)
+            return taskRepository.getAllTasks(user.getId());
+        else if (weekNo == null)
+            return taskRepository.getAllTasks(user.getId(), weekYear);
+        else {
+            Week w = getWeek(weekNo, weekYear);
+            return taskRepository.getAllTasks(user.getId(), w.getYear(), w.getWeekNo());
+        }
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<Task> updateTask(@Valid List<Task> tasks) {
+    public Task incrementTaskPriority(String id) {
+        return null;
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Task updateTaskById(String id, @Valid Task body) {
         User user = userRepository.getOrInsertCurrentUser();
-        Set<String> newTaskIds = tasks.stream().map(t -> t.getId()).collect(Collectors.toSet());
-        user.getTasks().stream().filter(t -> !newTaskIds.contains(t.getId()));
-        tasks.forEach(t -> user.addTasksItem(ModelCreateUpdate.updateTask(t)));
-        userRepository.save(user);
+        Task task = taskRepository.getTask(user.getId(), id);
+        return taskRepository.updateTaskWithBaseUpdate(user, TaskMerger.of(task).with(body));
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<Task> updateTasks(@Valid List<Task> tasks) {
+        User user = userRepository.getOrInsertCurrentUser();
+        taskRepository.updateTasksWithBaseUpdate(user, tasks);
         return tasks;
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Task updateTaskLabel(String taskId, @NotNull String label) {
+        User user = userRepository.getOrInsertCurrentUser();
+        Task task = taskRepository.getTask(user.getId(), taskId);
+        TaskLabel taskLabel =
+            user.getLabels().stream()
+                .filter(tl -> tl.getName().equals(label))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException(format("No such TaskLabel with label: '%s'", label)));
+        task.setLabel(taskLabel);
+        return taskRepository.updateTaskWithBaseUpdate(user, task);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public Task updateTaskState(String taskId, @NotNull String state) {
+        User user = userRepository.getOrInsertCurrentUser();
+        Task task = taskRepository.getTask(user.getId(), taskId);
+        TaskState taskState =
+                user.getStates().stream()
+                        .filter(tl -> tl.getValue().equals(state))
+                        .findFirst()
+                        .orElseThrow(() -> new NoSuchElementException(format("No such TaskState with name: '%s'", state)));
+        task.setState(taskState);
+        return taskRepository.updateTaskWithBaseUpdate(user, task);
     }
 
     private Week getWeek(Integer weekNo, Integer weekYear) {

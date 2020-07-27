@@ -32,3 +32,6 @@ build/
 .vscode/
 
 secrets.txt
+
+**/*AllOf.java
+**/*.sha256

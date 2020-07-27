@@ -44,17 +44,40 @@ public interface TasksApi  {
     public List<Task> createTasks(@QueryParam("weekNo") @NotNull  Integer weekNo, @QueryParam("weekYear") @NotNull  Integer weekYear, @Valid List<Task> task);
 
     /**
+     * Decrement a task priority.
+     *
+     */
+    @PUT
+    @Path("/task/{id}/priority/decrement")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Decrement a task priority.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task decrementTaskPriority(@PathParam("id") String id);
+
+    /**
      * Delete a task.
      *
      */
     @DELETE
     @Path("/tasks")
     @Consumes({ "application/json" })
-    @Produces({ "application/json" })
     @ApiOperation(value = "Delete a task.", tags={ "tasks",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Deleted task(s).", response = String.class, responseContainer = "List") })
-    public List<String> deleteTask(@Valid List<String> ERROR_UNKNOWN);
+        @ApiResponse(code = 200, message = "Task are deleted.") })
+    public void deleteTasks(@Valid List<String> requestBody);
+
+    /**
+     * Get task.
+     *
+     */
+    @GET
+    @Path("/task/{id}")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get task.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task getIndividualTask(@PathParam("id") String id);
 
     /**
      * Get tasks for a week.
@@ -66,19 +89,68 @@ public interface TasksApi  {
     @ApiOperation(value = "Get tasks for a week.", tags={ "tasks",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = ".", response = Task.class, responseContainer = "List") })
-    public List<Task> getTasks(@QueryParam("weekNo") @NotNull  Integer weekNo, @QueryParam("weekYear") @NotNull  Integer weekYear);
+    public List<Task> getTasks(@QueryParam("weekNo")  Integer weekNo, @QueryParam("weekYear")  Integer weekYear);
+
+    /**
+     * Increment a task priority.
+     *
+     */
+    @PUT
+    @Path("/task/{id}/priority/increment")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Increment a task priority.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task incrementTaskPriority(@PathParam("id") String id);
 
     /**
      * Update a task.
      *
      */
     @PUT
+    @Path("/task/{id}")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Update a task.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task updateTaskById(@PathParam("id") String id, @Valid Task task);
+
+    /**
+     * Update a task label.
+     *
+     */
+    @PUT
+    @Path("/task/{id}/label")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Update a task label.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task updateTaskLabel(@PathParam("id") String id, @QueryParam("label") @NotNull  String label);
+
+    /**
+     * Update a task state.
+     *
+     */
+    @PUT
+    @Path("/task/{id}/state")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Update a task state.", tags={ "tasks",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = ".", response = Task.class) })
+    public Task updateTaskState(@PathParam("id") String id, @QueryParam("state") @NotNull  String state);
+
+    /**
+     * Update a tasks.
+     *
+     */
+    @PUT
     @Path("/tasks")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "Update a task.", tags={ "tasks" })
+    @ApiOperation(value = "Update a tasks.", tags={ "tasks" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Updated task(s).", response = Task.class, responseContainer = "List") })
-    public List<Task> updateTask(@Valid List<Task> task);
+        @ApiResponse(code = 200, message = "Updated tasks.", response = Task.class, responseContainer = "List") })
+    public List<Task> updateTasks(@Valid List<Task> task);
 }
 

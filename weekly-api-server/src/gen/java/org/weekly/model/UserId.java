@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserId  {
   
   @ApiModelProperty(required = true, value = "")
-  private String provider = null;
+  private String provider;
 
   @ApiModelProperty(required = true, value = "")
-  private String email = null;
+  private String email;
  /**
    * Get provider
    * @return provider

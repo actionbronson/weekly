@@ -2,18 +2,14 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: Weekly
-  license:
-    name: MIT
+#  license:
+#    name: MIT
 
 servers:
   - url: https://localhost:8443/api/rest/v1
     description: Local development server
-
   - url: https://weekplanner.app/api/rest/v1
     description: Production server
-
-schemes:
-  - https
 
 paths:
   /week:
@@ -54,8 +50,8 @@ paths:
           required: true
           schema:
             type: integer
-            minValue: 1
-            maxValue: 53
+#            minValue: 1
+#            maxValue: 53
         - name: weekYear
           in: path
           description: ISO 8601 relative week (year).
@@ -83,8 +79,8 @@ paths:
           required: true
           schema:
             type: integer
-            minValue: 1
-            maxValue: 53
+#            minValue: 1
+#            maxValue: 53
         - name: weekYear
           in: query
           description: ISO 8601 relative week (year).
@@ -116,8 +112,8 @@ paths:
           required: true
           schema:
             type: integer
-            minValue: 1
-            maxValue: 53
+#            minValue: 1
+#            maxValue: 53
         - name: weekYear
           in: query
           description: ISO 8601 relative week (year).
@@ -136,6 +132,195 @@ paths:
               schema:
                 $ref: "#/components/schemas/Week"
 
+  /task/{id}:
+    get:
+      summary: Get task.
+      operationId: getIndividualTask
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+    put:
+      summary: Update a task.
+      operationId: updateTaskById
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The task to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+#              # not sure why this is necessary.
+#              allOf:
+#                - $ref: "#/components/schemas/Task"
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /task/{id}/priority/increment:
+    put:
+      summary: Increment a task priority.
+      operationId: incrementTaskPriority.
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /task/{id}/priority/decrement:
+    put:
+      summary: Decrement a task priority.
+      operationId: decrementTaskPriority.
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /task/{id}/state:
+    put:
+      summary: Update a task state.
+      operationId: updateTaskState.
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: the task state
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /task/{id}/label:
+    put:
+      summary: Update a task label.
+      operationId: updateTaskLabel.
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          description: the task id
+          required: true
+          schema:
+            type: string
+        - name: label
+          in: query
+          description: the task label
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /task/labels:
+    get:
+      summary: Get all task labels.
+      operationId: getTaskLabels.
+      tags:
+        - task-labels
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskLabel"
+
+  /task/priorities:
+    get:
+      summary: Get all task priorities.
+      operationId: getTaskPriorities.
+      tags:
+        - task-priorities
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskPriority"
+
+  /task/states:
+    get:
+      summary: Get all task states.
+      operationId: getTaskStates.
+      tags:
+        - task-states
+      responses:
+        '200':
+          description: .
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskState"
+
   /tasks:
     get:
       summary: Get tasks for a week.
@@ -146,15 +331,15 @@ paths:
         - name: weekNo
           in: query
           description: ISO 8601 relative week (number).  Defaults to current weekNo.
-          required: true
+          required: false
           schema:
             type: integer
-            minValue: 1
-            maxValue: 53
+#            minValue: 1
+#            maxValue: 53
         - name: weekYear
           in: query
           description: ISO 8601 relative week (year).  Defaults to current weekYear.
-          required: true
+          required: false
           schema:
             type: integer
       responses:
@@ -179,8 +364,8 @@ paths:
           required: true
           schema:
             type: integer
-            minValue: 1
-            maxValue: 53
+#            minValue: 1
+#            maxValue: 53
         - name: weekYear
           in: query
           description: ISO 8601 relative week (year).  Defaults to current weekYear.
@@ -207,12 +392,12 @@ paths:
                 items:
                   $ref: "#/components/schemas/Task"
     put:
-      summary: Update a task.
-      operationId: updateTask
+      summary: Update a tasks.
+      operationId: updateTasks
       tags:
         - tasks
       requestBody:
-        description: The task(s) you wish to update
+        description: The tasks you wish to update
         required: true
         content:
           application/json:
@@ -223,7 +408,7 @@ paths:
 
       responses:
         '200':
-          description: Updated task(s).
+          description: Updated tasks.
           content:
             application/json:
               schema:
@@ -233,41 +418,34 @@ paths:
 
     delete:
       summary: Delete a task.
-      operationId: deleteTask
+      operationId: deleteTasks
       tags:
         - tasks
       requestBody:
         description: The task(s) you wish to update
-        required: true
+#        required: true
         content:
           application/json:
             schema:
               type: array
               items:
                 type: string
-
       responses:
         '200':
-          description: Deleted task(s).
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
+          description: Task are deleted.
 
 components:
-  securitySchemes:
-    oAuthFacebook:
-      type: oauth2
-      description: This API uses OAuth 2 with the implicit grant flow.
-      flows:
-        implicit:
-          authorizationUrl: https://www.facebook.com/v6.0/dialog/oauth?client_id=238019867610264&redirect_uri=localhost:8080&state=whatevers
-          scopes:
-            email: email
-            public_profile: public_profile
-
+#  securitySchemes:
+#    oAuthFacebook:
+#      type: oauth2
+#      description: This API uses OAuth 2 with the implicit grant flow.
+#      flows:
+#        implicit:
+#          authorizationUrl: https://www.facebook.com/v6.0/dialog/oauth?client_id=238019867610264&redirect_uri=localhost:8080&state=whatevers
+#          scopes:
+#            email: email
+#            public_profile: public_profile
+#
   schemas:
 
     BasicObject:
@@ -281,6 +459,8 @@ components:
           type: string
           format: date-time
           nullable: false
+        typeOf:
+          type: string
 
     UserId:
       type: object
@@ -299,13 +479,10 @@ components:
       allOf:
         - $ref: "#/components/schemas/BasicObject"
         - type: object
-          required:
-            - id
           properties:
             id:
-              x-id: "@org.springframework.data.annotation.Id"
-              allOf:
-                - $ref: "#/components/schemas/UserId"
+              $ref: "#/components/schemas/UserId"
+              nullable: false
             name:
               type: string
             firstName:
@@ -316,13 +493,25 @@ components:
               type: string
             alias:
               type: string
-            preferences:
-              $ref: "#/components/schemas/Preferences"
-            tasks:
+            labels:
               type: array
               default: []
               items:
-                $ref: "#/components/schemas/Task"
+                $ref: "#/components/schemas/TaskLabel"
+            priorities:
+              type: array
+              default: []
+              items:
+                $ref: "#/components/schemas/TaskPriority"
+            states:
+              type: array
+              default: []
+              items:
+                $ref: "#/components/schemas/TaskState"
+            preferences:
+              $ref: "#/components/schemas/Preferences"
+      discriminator:
+        propertyName: typeOf
 
     Preferences:
       type: object
@@ -331,6 +520,19 @@ components:
           type: string
         dragToNextWeek:
           type: boolean
+
+    TaskId:
+      type: object
+      required:
+        - userId
+        - taskId
+      properties:
+        userId:
+          $ref: "#/components/schemas/UserId"
+          nullable: false
+        taskId:
+          type: string
+          nullable: false
 
     TaskLabel:
       type: object
@@ -362,7 +564,7 @@ components:
         value:
           type: string
           nullable: false
-          enum: [TODO,IN_PROGRESS,PROCRASTINATE,DONE]
+          enum: [TODO,IN_PROGRESS,DONE]
 
     Task:
       allOf:
@@ -370,7 +572,7 @@ components:
         - type: object
           properties:
             id:
-              type: string
+              $ref: "#/components/schemas/TaskId"
               nullable: false
             label:
               $ref: "#/components/schemas/TaskLabel"
@@ -394,6 +596,8 @@ components:
             weekNo:
               nullable: false
               type: integer
+      discriminator:
+        propertyName: typeOf
 
     Day:
       type: object
@@ -418,8 +622,3 @@ components:
         end:
           nullable: false
           $ref: "#/components/schemas/Day"
-        tasks:
-          type: array
-          default: []
-          items:
-            $ref: "#/components/schemas/Task"
