@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TaskPriority  {
   
   @ApiModelProperty(value = "")
-  private String name = null;
+  private String name;
 
   @ApiModelProperty(value = "")
-  private Integer level = null;
+  private Integer level;
  /**
    * Get name
    * @return name

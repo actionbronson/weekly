@@ -17,10 +17,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BasicObject  {
   
   @ApiModelProperty(value = "")
-  private OffsetDateTime updateTs = null;
+  private OffsetDateTime updateTs;
 
   @ApiModelProperty(value = "")
-  private OffsetDateTime creationTs = null;
+  private OffsetDateTime creationTs;
+
+  @ApiModelProperty(value = "")
+  private String typeOf;
  /**
    * Get updateTs
    * @return updateTs
@@ -57,6 +60,24 @@ public class BasicObject  {
     return this;
   }
 
+ /**
+   * Get typeOf
+   * @return typeOf
+  **/
+  @JsonProperty("typeOf")
+  public String getTypeOf() {
+    return typeOf;
+  }
+
+  public void setTypeOf(String typeOf) {
+    this.typeOf = typeOf;
+  }
+
+  public BasicObject typeOf(String typeOf) {
+    this.typeOf = typeOf;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -65,6 +86,7 @@ public class BasicObject  {
     
     sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
     sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
+    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,7 +1,11 @@
 package org.weekly.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.time.OffsetDateTime;
 import org.weekly.model.BasicObject;
+import org.weekly.model.TaskAllOf;
+import org.weekly.model.TaskId;
 import org.weekly.model.TaskLabel;
 import org.weekly.model.TaskPriority;
 import org.weekly.model.TaskState;
@@ -18,48 +22,115 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Task extends BasicObject {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "typeOf", visible = true)
+@JsonSubTypes({
+})
+public class Task  {
   
   @ApiModelProperty(value = "")
-  private String id = null;
+  private OffsetDateTime updateTs;
+
+  @ApiModelProperty(value = "")
+  private OffsetDateTime creationTs;
+
+  @ApiModelProperty(value = "")
+  private String typeOf;
 
   @ApiModelProperty(value = "")
   @Valid
-  private TaskLabel label = null;
+  private TaskId id;
 
   @ApiModelProperty(value = "")
   @Valid
-  private TaskPriority priority = null;
-
-  @ApiModelProperty(value = "")
-  private String summary = null;
-
-  @ApiModelProperty(value = "")
-  private String contents = null;
+  private TaskLabel label;
 
   @ApiModelProperty(value = "")
   @Valid
-  private TaskState state = null;
+  private TaskPriority priority;
 
   @ApiModelProperty(value = "")
-  private Integer weekYear = null;
+  private String summary;
 
   @ApiModelProperty(value = "")
-  private Integer weekNo = null;
+  private String contents;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private TaskState state;
+
+  @ApiModelProperty(value = "")
+  private Integer weekYear;
+
+  @ApiModelProperty(value = "")
+  private Integer weekNo;
+ /**
+   * Get updateTs
+   * @return updateTs
+  **/
+  @JsonProperty("updateTs")
+  public OffsetDateTime getUpdateTs() {
+    return updateTs;
+  }
+
+  public void setUpdateTs(OffsetDateTime updateTs) {
+    this.updateTs = updateTs;
+  }
+
+  public Task updateTs(OffsetDateTime updateTs) {
+    this.updateTs = updateTs;
+    return this;
+  }
+
+ /**
+   * Get creationTs
+   * @return creationTs
+  **/
+  @JsonProperty("creationTs")
+  public OffsetDateTime getCreationTs() {
+    return creationTs;
+  }
+
+  public void setCreationTs(OffsetDateTime creationTs) {
+    this.creationTs = creationTs;
+  }
+
+  public Task creationTs(OffsetDateTime creationTs) {
+    this.creationTs = creationTs;
+    return this;
+  }
+
+ /**
+   * Get typeOf
+   * @return typeOf
+  **/
+  @JsonProperty("typeOf")
+  public String getTypeOf() {
+    return typeOf;
+  }
+
+  public void setTypeOf(String typeOf) {
+    this.typeOf = typeOf;
+  }
+
+  public Task typeOf(String typeOf) {
+    this.typeOf = typeOf;
+    return this;
+  }
+
  /**
    * Get id
    * @return id
   **/
   @JsonProperty("id")
-  public String getId() {
+  public TaskId getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(TaskId id) {
     this.id = id;
   }
 
-  public Task id(String id) {
+  public Task id(TaskId id) {
     this.id = id;
     return this;
   }
@@ -195,7 +266,10 @@ public class Task extends BasicObject {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
+    sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
+    sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
+    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");

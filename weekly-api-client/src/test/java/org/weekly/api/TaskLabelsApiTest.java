@@ -16,19 +16,19 @@ package org.weekly.api;
 import org.weekly.invoker.ApiException;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.weekly.model.Task;
+import org.weekly.model.TaskLabel;
 
 /**
- * API tests for TaskApi
+ * API tests for TaskLabelsApi
  */
 @Ignore
-public class TaskApiTest {
+public class TaskLabelsApiTest {
 
-    private final TaskApi api = new TaskApi();
+    private final TaskLabelsApi api = new TaskLabelsApi();
 
     
     /**
-     * Create a task.
+     * Get all task labels.
      *
      * 
      *
@@ -36,10 +36,8 @@ public class TaskApiTest {
      *          if the Api call fails
      */
     @Test
-    public void createTaskTest() throws ApiException {
-        Integer weekNo = null;
-        Integer weekYear = null;
-        Task response = api.createTask(weekNo, weekYear);
+    public void getTaskLabelsTest() throws ApiException {
+        TaskLabel response = api.getTaskLabels();
 
         // TODO: test validations
     }

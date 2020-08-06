@@ -14,8 +14,12 @@ import org.apache.cxf.jaxrs.validation.ValidationExceptionMapper;
 import org.apache.cxf.validation.BeanValidationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -50,6 +54,7 @@ import java.util.Set;
     }
 )
 @EnableMongoRepositories(basePackageClasses={UserRepository.class})
+@EnableCaching
 @ComponentScan(basePackages = {"org.weekly.store", "org.weekly.api.impl", "org.weekly.security"})
 public class WeeklyApplication extends WebSecurityConfigurerAdapter {
 
@@ -68,6 +73,11 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
     @Bean
     public JacksonJsonProvider getJacksonJsonProvider() {
         return new JacksonJsonProvider();
+    }
+
+    @Bean
+    public CacheManager getCacheManager(@Value("${spring.cache.names}") List<String> cacheNames) {
+        return new ConcurrentMapCacheManager(cacheNames.toArray(new String [] {}));
     }
 
     @Bean

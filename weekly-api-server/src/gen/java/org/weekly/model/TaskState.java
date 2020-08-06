@@ -19,7 +19,7 @@ public class TaskState  {
 @XmlEnum(String.class)
 public enum ValueEnum {
 
-@XmlEnumValue("TODO") TODO(String.valueOf("TODO")), @XmlEnumValue("IN_PROGRESS") IN_PROGRESS(String.valueOf("IN_PROGRESS")), @XmlEnumValue("PROCRASTINATE") PROCRASTINATE(String.valueOf("PROCRASTINATE")), @XmlEnumValue("DONE") DONE(String.valueOf("DONE"));
+@XmlEnumValue("TODO") TODO(String.valueOf("TODO")), @XmlEnumValue("IN_PROGRESS") IN_PROGRESS(String.valueOf("IN_PROGRESS")), @XmlEnumValue("DONE") DONE(String.valueOf("DONE"));
 
 
     private String value;
@@ -48,7 +48,7 @@ public enum ValueEnum {
 }
 
   @ApiModelProperty(value = "")
-  private ValueEnum value = null;
+  private ValueEnum value;
  /**
    * Get value
    * @return value

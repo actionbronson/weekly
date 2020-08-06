@@ -33,16 +33,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.weekly.model.Task;
+import org.weekly.model.TaskId;
 import org.weekly.model.User;
 import org.weekly.model.UserId;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -54,8 +51,12 @@ import static java.lang.String.format;
 @ComponentScan(basePackages = "org.weekly.store")
 @Import(MongoRepositoryTestConfiguration.class)
 public class UserRepositoryTest {
+
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     private static final UserId IRINA = new UserId().email("irina@gmail.com").provider("google");
     private static final UserId JOHN = new UserId().email("john@gmail.com").provider("facebook");
@@ -70,10 +71,11 @@ public class UserRepositoryTest {
         );
     }
 
-    private List<Task> createTask(String name) {
+    private List<Task> createTask(String name, UserId userId) {
         return IntStream.range(4,25)
                 .mapToObj(weekNo ->
                     new Task()
+                        .id(new TaskId().userId(userId).taskId(UUID.randomUUID().toString()))
                         .weekNo(weekNo)
                         .contents(format("%s to do stuff on week %d", name, weekNo))
                 ).collect(createShuffler());
@@ -83,23 +85,29 @@ public class UserRepositoryTest {
         return List.of(
             new User()
                 .id(JOHN)
-                .name("John")
-                .tasks(createTask("John")),
+                .name("John"),
             new User()
                 .id(IRINA)
                 .name("Irina")
-                .tasks(createTask("Irina"))
         );
+    }
+
+    private List<Task> createTasks() {
+        return List.of(
+            createTask("John", JOHN),
+            createTask("Irina", IRINA)
+        ).stream().flatMap(t -> t.stream()).collect(Collectors.toList());
     }
 
     @Before
     public void setUp() {
-        repository.insert(createUsers());
+        userRepository.insert(createUsers());
+        taskRepository.insert(createTasks());
     }
 
     @Test
     public void validate_Irina_Tasks() {
-        List<Task> tasks = repository.getAllTasks(IRINA);
+        List<Task> tasks = taskRepository.getAllTasks(IRINA);
         Assert.assertEquals(
             tasks.stream().map(t -> t.getWeekNo()).collect(Collectors.toList()),
             IntStream.range(4,25).boxed().collect(Collectors.toList())
@@ -109,6 +117,6 @@ public class UserRepositoryTest {
 
     @After
     public void tearDown() {
-        repository.deleteAll();
+        userRepository.deleteAll();
     }
 }

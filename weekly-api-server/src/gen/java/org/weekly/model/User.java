@@ -1,11 +1,16 @@
 package org.weekly.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.weekly.model.BasicObject;
 import org.weekly.model.Preferences;
-import org.weekly.model.Task;
+import org.weekly.model.TaskLabel;
+import org.weekly.model.TaskPriority;
+import org.weekly.model.TaskState;
+import org.weekly.model.UserAllOf;
 import org.weekly.model.UserId;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -20,41 +25,113 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User extends BasicObject {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "typeOf", visible = true)
+@JsonSubTypes({
+})
+public class User  {
   
-  @ApiModelProperty(required = true, value = "")
-  @Valid
-  private UserId id = null;
+  @ApiModelProperty(value = "")
+  private OffsetDateTime updateTs;
 
   @ApiModelProperty(value = "")
-  private String name = null;
+  private OffsetDateTime creationTs;
 
   @ApiModelProperty(value = "")
-  private String firstName = null;
-
-  @ApiModelProperty(value = "")
-  private String lastName = null;
-
-  @ApiModelProperty(value = "")
-  private String picture = null;
-
-  @ApiModelProperty(value = "")
-  private String alias = null;
+  private String typeOf;
 
   @ApiModelProperty(value = "")
   @Valid
-  private Preferences preferences = null;
+  private UserId id;
+
+  @ApiModelProperty(value = "")
+  private String name;
+
+  @ApiModelProperty(value = "")
+  private String firstName;
+
+  @ApiModelProperty(value = "")
+  private String lastName;
+
+  @ApiModelProperty(value = "")
+  private String picture;
+
+  @ApiModelProperty(value = "")
+  private String alias;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<Task> tasks = null;
+  private List<TaskLabel> labels = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private List<TaskPriority> priorities = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private List<TaskState> states = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private Preferences preferences;
+ /**
+   * Get updateTs
+   * @return updateTs
+  **/
+  @JsonProperty("updateTs")
+  public OffsetDateTime getUpdateTs() {
+    return updateTs;
+  }
+
+  public void setUpdateTs(OffsetDateTime updateTs) {
+    this.updateTs = updateTs;
+  }
+
+  public User updateTs(OffsetDateTime updateTs) {
+    this.updateTs = updateTs;
+    return this;
+  }
+
+ /**
+   * Get creationTs
+   * @return creationTs
+  **/
+  @JsonProperty("creationTs")
+  public OffsetDateTime getCreationTs() {
+    return creationTs;
+  }
+
+  public void setCreationTs(OffsetDateTime creationTs) {
+    this.creationTs = creationTs;
+  }
+
+  public User creationTs(OffsetDateTime creationTs) {
+    this.creationTs = creationTs;
+    return this;
+  }
+
+ /**
+   * Get typeOf
+   * @return typeOf
+  **/
+  @JsonProperty("typeOf")
+  public String getTypeOf() {
+    return typeOf;
+  }
+
+  public void setTypeOf(String typeOf) {
+    this.typeOf = typeOf;
+  }
+
+  public User typeOf(String typeOf) {
+    this.typeOf = typeOf;
+    return this;
+  }
+
  /**
    * Get id
    * @return id
   **/
   @JsonProperty("id")
-    @org.springframework.data.annotation.Id
-  @NotNull
   public UserId getId() {
     return id;
   }
@@ -159,6 +236,75 @@ public class User extends BasicObject {
   }
 
  /**
+   * Get labels
+   * @return labels
+  **/
+  @JsonProperty("labels")
+  public List<TaskLabel> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<TaskLabel> labels) {
+    this.labels = labels;
+  }
+
+  public User labels(List<TaskLabel> labels) {
+    this.labels = labels;
+    return this;
+  }
+
+  public User addLabelsItem(TaskLabel labelsItem) {
+    this.labels.add(labelsItem);
+    return this;
+  }
+
+ /**
+   * Get priorities
+   * @return priorities
+  **/
+  @JsonProperty("priorities")
+  public List<TaskPriority> getPriorities() {
+    return priorities;
+  }
+
+  public void setPriorities(List<TaskPriority> priorities) {
+    this.priorities = priorities;
+  }
+
+  public User priorities(List<TaskPriority> priorities) {
+    this.priorities = priorities;
+    return this;
+  }
+
+  public User addPrioritiesItem(TaskPriority prioritiesItem) {
+    this.priorities.add(prioritiesItem);
+    return this;
+  }
+
+ /**
+   * Get states
+   * @return states
+  **/
+  @JsonProperty("states")
+  public List<TaskState> getStates() {
+    return states;
+  }
+
+  public void setStates(List<TaskState> states) {
+    this.states = states;
+  }
+
+  public User states(List<TaskState> states) {
+    this.states = states;
+    return this;
+  }
+
+  public User addStatesItem(TaskState statesItem) {
+    this.states.add(statesItem);
+    return this;
+  }
+
+ /**
    * Get preferences
    * @return preferences
   **/
@@ -176,43 +322,25 @@ public class User extends BasicObject {
     return this;
   }
 
- /**
-   * Get tasks
-   * @return tasks
-  **/
-  @JsonProperty("tasks")
-  public List<Task> getTasks() {
-    return tasks;
-  }
-
-  public void setTasks(List<Task> tasks) {
-    this.tasks = tasks;
-  }
-
-  public User tasks(List<Task> tasks) {
-    this.tasks = tasks;
-    return this;
-  }
-
-  public User addTasksItem(Task tasksItem) {
-    this.tasks.add(tasksItem);
-    return this;
-  }
-
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
+    sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
+    sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
+    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
     sb.append("    picture: ").append(toIndentedString(picture)).append("\n");
     sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+    sb.append("    priorities: ").append(toIndentedString(priorities)).append("\n");
+    sb.append("    states: ").append(toIndentedString(states)).append("\n");
     sb.append("    preferences: ").append(toIndentedString(preferences)).append("\n");
-    sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("}");
     return sb.toString();
   }
