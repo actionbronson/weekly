@@ -1,16 +1,12 @@
 package org.weekly.model;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.weekly.model.BasicObject;
 import org.weekly.model.Preferences;
 import org.weekly.model.TaskLabel;
 import org.weekly.model.TaskPriority;
 import org.weekly.model.TaskState;
-import org.weekly.model.UserAllOf;
 import org.weekly.model.UserId;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,23 +21,17 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "typeOf", visible = true)
-@JsonSubTypes({
-})
 public class User  {
   
+  @ApiModelProperty(value = "")
+  @Valid
+  private UserId id;
+
   @ApiModelProperty(value = "")
   private OffsetDateTime updateTs;
 
   @ApiModelProperty(value = "")
   private OffsetDateTime creationTs;
-
-  @ApiModelProperty(value = "")
-  private String typeOf;
-
-  @ApiModelProperty(value = "")
-  @Valid
-  private UserId id;
 
   @ApiModelProperty(value = "")
   private String name;
@@ -73,6 +63,24 @@ public class User  {
   @ApiModelProperty(value = "")
   @Valid
   private Preferences preferences;
+ /**
+   * Get id
+   * @return id
+  **/
+  @JsonProperty("id")
+  public UserId getId() {
+    return id;
+  }
+
+  public void setId(UserId id) {
+    this.id = id;
+  }
+
+  public User id(UserId id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get updateTs
    * @return updateTs
@@ -106,42 +114,6 @@ public class User  {
 
   public User creationTs(OffsetDateTime creationTs) {
     this.creationTs = creationTs;
-    return this;
-  }
-
- /**
-   * Get typeOf
-   * @return typeOf
-  **/
-  @JsonProperty("typeOf")
-  public String getTypeOf() {
-    return typeOf;
-  }
-
-  public void setTypeOf(String typeOf) {
-    this.typeOf = typeOf;
-  }
-
-  public User typeOf(String typeOf) {
-    this.typeOf = typeOf;
-    return this;
-  }
-
- /**
-   * Get id
-   * @return id
-  **/
-  @JsonProperty("id")
-  public UserId getId() {
-    return id;
-  }
-
-  public void setId(UserId id) {
-    this.id = id;
-  }
-
-  public User id(UserId id) {
-    this.id = id;
     return this;
   }
 
@@ -328,10 +300,9 @@ public class User  {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
     sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
-    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");

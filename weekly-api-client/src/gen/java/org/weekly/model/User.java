@@ -26,20 +26,21 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.weekly.model.BasicObject;
 import org.weekly.model.Preferences;
 import org.weekly.model.TaskLabel;
 import org.weekly.model.TaskPriority;
 import org.weekly.model.TaskState;
-import org.weekly.model.UserAllOf;
 import org.weekly.model.UserId;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-08-06T16:30:12.704730-04:00[America/Toronto]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-12-22T19:37:11.534673-05:00[America/Toronto]")
 public class User {
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
+  private UserId id;
+
   public static final String SERIALIZED_NAME_UPDATE_TS = "updateTs";
   @SerializedName(SERIALIZED_NAME_UPDATE_TS)
   private OffsetDateTime updateTs;
@@ -47,14 +48,6 @@ public class User {
   public static final String SERIALIZED_NAME_CREATION_TS = "creationTs";
   @SerializedName(SERIALIZED_NAME_CREATION_TS)
   private OffsetDateTime creationTs;
-
-  public static final String SERIALIZED_NAME_TYPE_OF = "typeOf";
-  @SerializedName(SERIALIZED_NAME_TYPE_OF)
-  protected String typeOf;
-
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
-  private UserId id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -92,9 +85,29 @@ public class User {
   @SerializedName(SERIALIZED_NAME_PREFERENCES)
   private Preferences preferences;
 
-  public User() {
-    this.typeOf = this.getClass().getSimpleName();
+
+  public User id(UserId id) {
+    
+    this.id = id;
+    return this;
   }
+
+   /**
+   * Get id
+   * @return id
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public UserId getId() {
+    return id;
+  }
+
+
+  public void setId(UserId id) {
+    this.id = id;
+  }
+
 
   public User updateTs(OffsetDateTime updateTs) {
     
@@ -139,52 +152,6 @@ public class User {
 
   public void setCreationTs(OffsetDateTime creationTs) {
     this.creationTs = creationTs;
-  }
-
-
-  public User typeOf(String typeOf) {
-    
-    this.typeOf = typeOf;
-    return this;
-  }
-
-   /**
-   * Get typeOf
-   * @return typeOf
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public String getTypeOf() {
-    return typeOf;
-  }
-
-
-  public void setTypeOf(String typeOf) {
-    this.typeOf = typeOf;
-  }
-
-
-  public User id(UserId id) {
-    
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public UserId getId() {
-    return id;
-  }
-
-
-  public void setId(UserId id) {
-    this.id = id;
   }
 
 
@@ -428,10 +395,9 @@ public class User {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(this.updateTs, user.updateTs) &&
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.updateTs, user.updateTs) &&
         Objects.equals(this.creationTs, user.creationTs) &&
-        Objects.equals(this.typeOf, user.typeOf) &&
-        Objects.equals(this.id, user.id) &&
         Objects.equals(this.name, user.name) &&
         Objects.equals(this.firstName, user.firstName) &&
         Objects.equals(this.lastName, user.lastName) &&
@@ -445,7 +411,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(updateTs, creationTs, typeOf, id, name, firstName, lastName, picture, alias, labels, priorities, states, preferences);
+    return Objects.hash(id, updateTs, creationTs, name, firstName, lastName, picture, alias, labels, priorities, states, preferences);
   }
 
 
@@ -453,10 +419,9 @@ public class User {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
     sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
-    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");

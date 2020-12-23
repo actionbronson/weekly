@@ -6,10 +6,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | [**UserId**](UserId.md) |  |  [optional]
 **updateTs** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 **creationTs** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
-**typeOf** | **String** |  |  [optional]
-**id** | [**UserId**](UserId.md) |  |  [optional]
 **name** | **String** |  |  [optional]
 **firstName** | **String** |  |  [optional]
 **lastName** | **String** |  |  [optional]

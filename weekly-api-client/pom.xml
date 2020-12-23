@@ -101,7 +101,7 @@
 							<apiPackage>org.weekly.api</apiPackage>
 							<modelPackage>org.weekly.model</modelPackage>
 							<invokerPackage>org.weekly.invoker</invokerPackage>
-							<generateSupportingFiles>true</generateSupportingFiles>
+							<generateSupportingFiles>false</generateSupportingFiles>
 							<output>.</output>
 							<withXml>false</withXml>
 							<configOptions>

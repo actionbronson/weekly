@@ -28,7 +28,7 @@ import org.weekly.model.UserId;
 /**
  * TaskId
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-08-06T16:30:12.704730-04:00[America/Toronto]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-12-22T19:37:11.534673-05:00[America/Toronto]")
 public class TaskId {
   public static final String SERIALIZED_NAME_USER_ID = "userId";
   @SerializedName(SERIALIZED_NAME_USER_ID)

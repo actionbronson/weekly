@@ -6,10 +6,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | [**TaskId**](TaskId.md) |  |  [optional]
 **updateTs** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 **creationTs** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
-**typeOf** | **String** |  |  [optional]
-**id** | [**TaskId**](TaskId.md) |  |  [optional]
 **label** | [**TaskLabel**](TaskLabel.md) |  |  [optional]
 **priority** | [**TaskPriority**](TaskPriority.md) |  |  [optional]
 **summary** | **String** |  |  [optional]
