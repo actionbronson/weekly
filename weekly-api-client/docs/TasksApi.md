@@ -39,7 +39,7 @@ public class Example {
     TasksApi apiInstance = new TasksApi(defaultClient);
     Integer weekNo = 56; // Integer | ISO 8601 relative week (number).  Defaults to current weekNo.
     Integer weekYear = 56; // Integer | ISO 8601 relative week (year).  Defaults to current weekYear.
-    List<Task> task = Arrays.asList(null); // List<Task> | The task(s) you wish to create
+    List<Task> task = Arrays.asList(); // List<Task> | The task(s) you wish to create
     try {
       List<Task> result = apiInstance.createTasks(weekNo, weekYear, task);
       System.out.println(result);
@@ -588,7 +588,7 @@ public class Example {
     defaultClient.setBasePath("https://localhost:8443/api/rest/v1");
 
     TasksApi apiInstance = new TasksApi(defaultClient);
-    List<Task> task = Arrays.asList(null); // List<Task> | The tasks you wish to update
+    List<Task> task = Arrays.asList(); // List<Task> | The tasks you wish to update
     try {
       List<Task> result = apiInstance.updateTasks(task);
       System.out.println(result);

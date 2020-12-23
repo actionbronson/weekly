@@ -88,7 +88,7 @@ public class WeeklyApplication extends WebSecurityConfigurerAdapter {
         feature.setSupportSwaggerUi(true);
         feature.setUseContextBasedConfig(true);
         feature.setSwaggerUiMavenGroupAndArtifact("org.webjars.swagger-ui");
-        feature.setSwaggerUiVersion("3.25.0");
+        feature.setSwaggerUiVersion("3.38.0");
         return feature;
     }
 

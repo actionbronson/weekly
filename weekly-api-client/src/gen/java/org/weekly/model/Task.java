@@ -24,8 +24,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import org.weekly.model.BasicObject;
-import org.weekly.model.TaskAllOf;
 import org.weekly.model.TaskId;
 import org.weekly.model.TaskLabel;
 import org.weekly.model.TaskPriority;
@@ -34,9 +32,12 @@ import org.weekly.model.TaskState;
 /**
  * Task
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-08-06T16:30:12.704730-04:00[America/Toronto]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-12-22T19:37:11.534673-05:00[America/Toronto]")
 public class Task {
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
+  private TaskId id;
+
   public static final String SERIALIZED_NAME_UPDATE_TS = "updateTs";
   @SerializedName(SERIALIZED_NAME_UPDATE_TS)
   private OffsetDateTime updateTs;
@@ -44,14 +45,6 @@ public class Task {
   public static final String SERIALIZED_NAME_CREATION_TS = "creationTs";
   @SerializedName(SERIALIZED_NAME_CREATION_TS)
   private OffsetDateTime creationTs;
-
-  public static final String SERIALIZED_NAME_TYPE_OF = "typeOf";
-  @SerializedName(SERIALIZED_NAME_TYPE_OF)
-  protected String typeOf;
-
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
-  private TaskId id;
 
   public static final String SERIALIZED_NAME_LABEL = "label";
   @SerializedName(SERIALIZED_NAME_LABEL)
@@ -81,9 +74,29 @@ public class Task {
   @SerializedName(SERIALIZED_NAME_WEEK_NO)
   private Integer weekNo;
 
-  public Task() {
-    this.typeOf = this.getClass().getSimpleName();
+
+  public Task id(TaskId id) {
+    
+    this.id = id;
+    return this;
   }
+
+   /**
+   * Get id
+   * @return id
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public TaskId getId() {
+    return id;
+  }
+
+
+  public void setId(TaskId id) {
+    this.id = id;
+  }
+
 
   public Task updateTs(OffsetDateTime updateTs) {
     
@@ -128,52 +141,6 @@ public class Task {
 
   public void setCreationTs(OffsetDateTime creationTs) {
     this.creationTs = creationTs;
-  }
-
-
-  public Task typeOf(String typeOf) {
-    
-    this.typeOf = typeOf;
-    return this;
-  }
-
-   /**
-   * Get typeOf
-   * @return typeOf
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public String getTypeOf() {
-    return typeOf;
-  }
-
-
-  public void setTypeOf(String typeOf) {
-    this.typeOf = typeOf;
-  }
-
-
-  public Task id(TaskId id) {
-    
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public TaskId getId() {
-    return id;
-  }
-
-
-  public void setId(TaskId id) {
-    this.id = id;
   }
 
 
@@ -347,10 +314,9 @@ public class Task {
       return false;
     }
     Task task = (Task) o;
-    return Objects.equals(this.updateTs, task.updateTs) &&
+    return Objects.equals(this.id, task.id) &&
+        Objects.equals(this.updateTs, task.updateTs) &&
         Objects.equals(this.creationTs, task.creationTs) &&
-        Objects.equals(this.typeOf, task.typeOf) &&
-        Objects.equals(this.id, task.id) &&
         Objects.equals(this.label, task.label) &&
         Objects.equals(this.priority, task.priority) &&
         Objects.equals(this.summary, task.summary) &&
@@ -362,7 +328,7 @@ public class Task {
 
   @Override
   public int hashCode() {
-    return Objects.hash(updateTs, creationTs, typeOf, id, label, priority, summary, contents, state, weekYear, weekNo);
+    return Objects.hash(id, updateTs, creationTs, label, priority, summary, contents, state, weekYear, weekNo);
   }
 
 
@@ -370,10 +336,9 @@ public class Task {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    updateTs: ").append(toIndentedString(updateTs)).append("\n");
     sb.append("    creationTs: ").append(toIndentedString(creationTs)).append("\n");
-    sb.append("    typeOf: ").append(toIndentedString(typeOf)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    summary: ").append(toIndentedString(summary)).append("\n");

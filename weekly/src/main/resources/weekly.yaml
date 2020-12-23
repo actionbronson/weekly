@@ -2,8 +2,6 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: Weekly
-#  license:
-#    name: MIT
 
 servers:
   - url: https://localhost:8443/api/rest/v1
@@ -423,7 +421,7 @@ paths:
         - tasks
       requestBody:
         description: The task(s) you wish to update
-#        required: true
+        required: true
         content:
           application/json:
             schema:
@@ -448,19 +446,19 @@ components:
 #
   schemas:
 
-    BasicObject:
-      type: object
-      properties:
-        updateTs:
-          type: string
-          format: date-time
-          nullable: false
-        creationTs:
-          type: string
-          format: date-time
-          nullable: false
-        typeOf:
-          type: string
+#    BasicObject:
+#      type: object
+#      properties:
+#        updateTs:
+#          type: string
+#          format: date-time
+#          nullable: false
+#        creationTs:
+#          type: string
+#          format: date-time
+#          nullable: false
+#        typeOf:
+#          type: string
 
     UserId:
       type: object
@@ -476,42 +474,46 @@ components:
           nullable: false
 
     User:
-      allOf:
-        - $ref: "#/components/schemas/BasicObject"
-        - type: object
-          properties:
-            id:
-              $ref: "#/components/schemas/UserId"
-              nullable: false
-            name:
-              type: string
-            firstName:
-              type: string
-            lastName:
-              type: string
-            picture:
-              type: string
-            alias:
-              type: string
-            labels:
-              type: array
-              default: []
-              items:
-                $ref: "#/components/schemas/TaskLabel"
-            priorities:
-              type: array
-              default: []
-              items:
-                $ref: "#/components/schemas/TaskPriority"
-            states:
-              type: array
-              default: []
-              items:
-                $ref: "#/components/schemas/TaskState"
-            preferences:
-              $ref: "#/components/schemas/Preferences"
-      discriminator:
-        propertyName: typeOf
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UserId"
+          nullable: false
+        updateTs:
+          type: string
+          format: date-time
+          nullable: false
+        creationTs:
+          type: string
+          format: date-time
+          nullable: false
+        name:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        picture:
+          type: string
+        alias:
+          type: string
+        labels:
+          type: array
+          default: []
+          items:
+            $ref: "#/components/schemas/TaskLabel"
+        priorities:
+          type: array
+          default: []
+          items:
+            $ref: "#/components/schemas/TaskPriority"
+        states:
+          type: array
+          default: []
+          items:
+            $ref: "#/components/schemas/TaskState"
+        preferences:
+          $ref: "#/components/schemas/Preferences"
 
     Preferences:
       type: object
@@ -567,37 +569,41 @@ components:
           enum: [TODO,IN_PROGRESS,DONE]
 
     Task:
-      allOf:
-        - $ref: "#/components/schemas/BasicObject"
-        - type: object
-          properties:
-            id:
-              $ref: "#/components/schemas/TaskId"
-              nullable: false
-            label:
-              $ref: "#/components/schemas/TaskLabel"
-            priority:
-              $ref: "#/components/schemas/TaskPriority"
-            summary:
-              nullable: false
-              type: string
-              minLength: 3
-              maxLength: 128
-            contents:
-              nullable: true
-              type: string
-              maxLength: 65536
-            state:
-              nullable: false
-              $ref: "#/components/schemas/TaskState"
-            weekYear:
-              nullable: false
-              type: integer
-            weekNo:
-              nullable: false
-              type: integer
-      discriminator:
-        propertyName: typeOf
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/TaskId"
+          nullable: false
+        updateTs:
+          type: string
+          format: date-time
+          nullable: false
+        creationTs:
+          type: string
+          format: date-time
+          nullable: false
+        label:
+          $ref: "#/components/schemas/TaskLabel"
+        priority:
+          $ref: "#/components/schemas/TaskPriority"
+        summary:
+          nullable: false
+          type: string
+          minLength: 3
+          maxLength: 128
+        contents:
+          nullable: true
+          type: string
+          maxLength: 65536
+        state:
+          nullable: false
+          $ref: "#/components/schemas/TaskState"
+        weekYear:
+          nullable: false
+          type: integer
+        weekNo:
+          nullable: false
+          type: integer
 
     Day:
       type: object
